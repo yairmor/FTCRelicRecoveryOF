@@ -1,0 +1,16 @@
+בכדי להתחיל לתכנת אתם צריכים להוריד את
+אם אתם פה אז כבר יש לכם כבר גיט אבל
+
+https://desktop.github.com/
+https://tortoisegit.org/download/
+
+
+jdk(java developer kit): http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html      
+https://www.youtube.com/watch?v=evoLlsLFn10
+
+android studio:
+https://developer.android.com/studio/index.html
+
+מומלץ להתקין
+everything https://www.voidtools.com/
+teamviewer https://www.teamviewer.com/he/
