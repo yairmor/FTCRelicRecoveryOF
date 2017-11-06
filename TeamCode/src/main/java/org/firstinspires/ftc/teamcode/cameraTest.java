@@ -8,6 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "cameraTest")
 public class cameraTest {
     ClassicClass a = new ClassicClass();
-    a.
+
 
 }
