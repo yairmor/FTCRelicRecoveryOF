@@ -19,6 +19,7 @@ public class teleopTest extends OpMode {
     DcMotor glifs2;
     @Override
     public void init() {
+        //the name of the configuration
         left = hardwareMap.dcMotor.get("MotorLeft");
         right = hardwareMap.dcMotor.get("MotorRight");
         ser = hardwareMap.servo.get("Servo");
@@ -26,12 +27,14 @@ public class teleopTest extends OpMode {
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void loop() {
         left.setPower(gamepad1.left_stick_y);
         right.setPower(gamepad1.right_stick_y);
+        //collect glifs
         if(gamepad2.a){
            glifs1.setPower(1);
            glifs2.setPower(1);
@@ -40,13 +43,15 @@ public class teleopTest extends OpMode {
            glifs1.setPower(0);
            glifs2.setPower(0);
         }
+        //put glifs on metriza
         if(gamepad2.y){
-            ser.setPosition(0.8);
-            ser2.setPosition(-0.8);
+            ser.setPosition(0.1);
+            ser2.setPosition(1);
 
-        } else
-            ser.setPosition(0.2);
-                ser2.setPosition(-0.2);
+        } else {
+            ser.setPosition(0.9);
+            ser2.setPosition(0.1);
+        }
     }
 }
 
