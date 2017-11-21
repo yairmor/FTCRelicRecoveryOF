@@ -15,6 +15,10 @@ public class AutonomousTEST extends robot  {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        initRobot();
+        waitForStart();
+        runWithEncoders(1, 1, 1000, 1000, 1000);
+        runWithEncoders(0.5, -0.5, 1000, 2500, 2500);
+        stopRobot();
     }
 }

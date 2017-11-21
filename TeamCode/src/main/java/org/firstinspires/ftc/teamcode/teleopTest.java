@@ -17,17 +17,22 @@ public class teleopTest extends OpMode {
     Servo ser2;
     DcMotor glifs1;
     DcMotor glifs2;
+    Servo xl;
+    Servo Yl;
+    public  boolean flagForServo = false;
     @Override
     public void init() {
         //the name of the configuration
         left = hardwareMap.dcMotor.get("MotorLeft");
         right = hardwareMap.dcMotor.get("MotorRight");
-        ser = hardwareMap.servo.get("Servo");
-        ser2 = hardwareMap.servo.get("Servo2");
-        glifs1 = hardwareMap.dcMotor.get("glifs1");
-        glifs2 = hardwareMap.dcMotor.get("glifs2");
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
-        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        ser = hardwareMap.servo.get("Ser1");
+        //ser2 = hardwareMap.servo.get("Ser2");
+        //glifs1 = hardwareMap.dcMotor.get("glifs1");
+        //glifs2 = hardwareMap.dcMotor.get("glifs2");
+        xl = hardwareMap.servo.get("xl");
+        Yl = hardwareMap.servo.get("yl");
+        //right.setDirection(DcMotorSimple.Direction.REVERSE);
+        //left.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -36,24 +41,32 @@ public class teleopTest extends OpMode {
         right.setPower(gamepad1.right_stick_y);
         //collect glifs
         if(gamepad2.a){
-           glifs1.setPower(1);
-           glifs2.setPower(1);
+           //glifs1.setPower(1);
+           //glifs2.setPower(1);
         }
         else{
-           glifs1.setPower(0);
-           glifs2.setPower(0);
+           //glifs1.setPower(0);
+           //glifs2.setPower(0);
+            //end
         }
-        //put glifs on metriza
-        if(gamepad2.y){
-            ser.setPosition(0.1);
-            ser2.setPosition(1);
+        //take relic
+        if(gamepad2.y) {
+            flagForServo = !flagForServo;
+        }
+        if(flagForServo){
+            ser.setPosition(0.50);
+        }
+        else {
+           ser.setPosition(1);
+        }
 
-        } else {
-            ser.setPosition(0.9);
-            ser2.setPosition(0.1);
-        }
+        xl.setPosition(gamepad2.left_stick_x);
+        Yl.setPosition(gamepad2.right_stick_y);
+
+
     }
 }
+
 
 
 
