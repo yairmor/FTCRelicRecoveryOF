@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.sun.source.tree.ThrowTree;
 
 /**
  * Created by user on 13/11/2017.
@@ -18,6 +19,7 @@ public class AutonomousTEST extends robot  {
         initRobot();
         waitForStart();
         runWithEncoders(1, 1, 1000, 1000, 1000);
+        Thread.sleep(30);
         runWithEncoders(0.5, -0.5, 1000, 2500, 2500);
         stopRobot();
     }
