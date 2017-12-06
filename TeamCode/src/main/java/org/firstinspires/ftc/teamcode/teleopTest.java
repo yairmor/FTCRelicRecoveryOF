@@ -47,7 +47,7 @@ public class teleopTest extends OpMode {
         motorRight = hardwareMap.dcMotor.get("MotorRight");
        // ser = hardwareMap.servo.get("Ser1");
        // ser2 = hardwareMap.servo.get("Ser2");
-        //glifs1 = hardwareMap.dcMotor.get("glifs1");
+        glifs1 = hardwareMap.dcMotor.get("glifs1");
         //glifs2 = hardwareMap.dcMotor.get("glifs2");
         flip1 = hardwareMap.servo.get("flip1");
         //flip2 = hardwareMap.servo.get("flip2");
@@ -67,17 +67,17 @@ public class teleopTest extends OpMode {
 
 
             //collect glifs
-        /*if (gamepad2.left_bumper) {
+        if (gamepad1.left_bumper) {
             glifs1.setPower(-1);
-            glifs2.setPower(1);
+            //glifs2.setPower(1);
 
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad1.right_bumper) {
             glifs1.setPower(1);
-            glifs2.setPower(-1);
+            //glifs2.setPower(-1);
 
         } else {
             glifs1.setPower(0);
-            glifs2.setPower(0);
+            //glifs2.setPower(0);
             //end
 
 
