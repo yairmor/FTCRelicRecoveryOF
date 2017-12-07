@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 //import static android.R.attr.color;
@@ -14,6 +14,9 @@ import static android.R.attr.right;
  */
 
 public abstract class robot extends LinearOpMode {
+    public DcMotor motorLeft;
+    public DcMotor motorRight;
+    public ColorSensor colorSensor;
     abstract public void runOpMode() throws InterruptedException;
     public DcMotor left, right;
     private final String VUFORIA_KEY_CODE = "AZEdxSX/////AAAAGRJHvDefqkuEg/u6gUdjR7lBp/9/VJUSfF+vyquynu2jWx3A1RFYpuNecs0reL12ivg/g8WUYgMopKOjRIxKoqWmjTUBlrIfDlZkFArLx5nTa7KQOAlbaNPIGr1x1wYx5ChhsB+c/NK3YdOJ4LvQ3lqyDus0FDa3W5kj7xifwGZWQupirVwjEpCxDBu7LCtc/1asHgf5OzjC0qUIajlgZYYn0QXB+rdrQPZ4oiBysidFNigDqyQOcFpmL0clUnEVCQ35UjZRmjqYjKzzLXGLzY/jbbsfuwEDuSykOMwS8i5dpHIQFs+CSWSjJHn+nD/TDPY70FDqBZMEOgiP+pUOLXd2SL7FJSaWcOxw7qspEHgQ\n";
@@ -75,12 +78,20 @@ public abstract class robot extends LinearOpMode {
     }
     public void initRobot(){
         //cnfig
-        left = hardwareMap.dcMotor.get("MotorLeft");
-        right = hardwareMap.dcMotor.get("MotorRight");
-        //servo = hardwareMap.servo.get("Ser1");
-        //ser2 = hardwareMap.servo.get("Ser2");
+        //the name of the configuration
+        motorLeft = hardwareMap.dcMotor.get("MotorLeft");
+        motorRight = hardwareMap.dcMotor.get("MotorRight");
+        // ser = hardwareMap.servo.get("Ser1");
+        // ser2 = hardwareMap.servo.get("Ser2");
         //glifs1 = hardwareMap.dcMotor.get("glifs1");
         //glifs2 = hardwareMap.dcMotor.get("glifs2");
+        //flip1 = hardwareMap.servo.get("flip1");
+        //flip2 = hardwareMap.servo.get("flip2");
+        //Elev = hardwareMap.dcMotor.get("Elev");
+        // Yl = hardwareMap.servo.get("yl");
+        //motorRight.setDirection(DcMotor.Direction.REVERSE);
+        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        // Yl.setPosition(0.25);
     }
 
 }

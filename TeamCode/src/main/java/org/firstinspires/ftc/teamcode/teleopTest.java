@@ -18,15 +18,12 @@ public class teleopTest extends OpMode {
     DcMotor glifs1;
     DcMotor glifs2;
     Servo flip1;
-    Servo flip2;
     Servo Yl;
     DcMotor Elev;
     private enum Direction {
         UP, DOWN, NO
     }
-
-    ;
-
+    private  boolean isLifting;
     private Direction dir = Direction.NO;
 
 
@@ -48,7 +45,7 @@ public class teleopTest extends OpMode {
        // ser = hardwareMap.servo.get("Ser1");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
-        //glifs2 = hardwareMap.dcMotor.get("glifs2");
+        glifs2 = hardwareMap.dcMotor.get("glifs2");
         flip1 = hardwareMap.servo.get("flip1");
         //flip2 = hardwareMap.servo.get("flip2");
         Elev = hardwareMap.dcMotor.get("Elev");
@@ -60,7 +57,15 @@ public class teleopTest extends OpMode {
 
     @Override
     public void loop() {
-
+        if (gamepad2.x){
+            isLifting = !isLifting;
+        }
+        if(isLifting){
+            //flip servo
+        }
+        else{
+            //something else
+        }
         motorLeft.setPower(gamepad1.left_stick_y);
         motorRight.setPower(gamepad1.right_stick_y);
 
@@ -69,15 +74,15 @@ public class teleopTest extends OpMode {
             //collect glifs
         if (gamepad1.left_bumper) {
             glifs1.setPower(-1);
-            //glifs2.setPower(1);
+            glifs2.setPower(-1);
 
         } else if (gamepad1.right_bumper) {
             glifs1.setPower(1);
-            //glifs2.setPower(-1);
+            glifs2.setPower(1);
 
         } else {
             glifs1.setPower(0);
-            //glifs2.setPower(0);
+            glifs2.setPower(0);
             //end
 
 
@@ -134,9 +139,7 @@ public class teleopTest extends OpMode {
         if(-gamepad2.left_stick_y > 0.5) {
             //  Elev.setTargetPosition();
             Elev.setPower(0.5);
-            if (Elev.getCurrentPosition() > 1000)
-                Elev.setPower(0);
-                //else
+
         }else  if(-gamepad2.left_stick_y < -0.5){
           //  Elev.setTargetPosition();
             Elev.setPower(-0.5);
@@ -144,6 +147,7 @@ public class teleopTest extends OpMode {
         }else {
             Elev.setPower(0);
         }
+
 
 
 
