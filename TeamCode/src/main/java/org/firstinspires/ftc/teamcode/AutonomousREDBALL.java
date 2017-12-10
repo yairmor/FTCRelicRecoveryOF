@@ -1,19 +1,16 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sun.source.tree.ThrowTree;
 
-
-
-
 /**
- * Created by user on 13/11/2017.
+ * Created by user on 10/12/2017.
  */
-@Autonomous (name = "blueball")
-public class AutonomousTEST extends robot  {
+
+@Autonomous (name = "REDball")
+public class AutonomousREDBALL extends robot  {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,14 +19,14 @@ public class AutonomousTEST extends robot  {
         //telemetry.addLine(String.valueOf(colorSensor));
         //telemetry.update();
         Thread.sleep(30);
-
-        serball.setPosition(0.69);
-        if (colorSensor.red()>250){
-            runWithEncoders(-0.8, 0.8, -2800, 2800,7000);
+         serball.setPosition(1);
+        //if (colorSensor.blue()>250){
+            runWithEncoders(0.5, -0.5, 2500, -2500, 5000);
 
         }
-        else{
-            runWithEncoders(0.8, -0.5, 2800, -2800, 7000);
+        //else{
+            //runWithEncoders(-0.5, 0.5, 2500, -2500, 5000);
         }
-    }
-}
+   // }
+//}
+

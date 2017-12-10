@@ -46,37 +46,37 @@ public class teleopTest extends OpMode {
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
-        flip1 = hardwareMap.servo.get("flip1");
+        //flip1 = hardwareMap.servo.get("flip1");
         //flip2 = hardwareMap.servo.get("flip2");
         Elev = hardwareMap.dcMotor.get("Elev");
-       // Yl = hardwareMap.servo.get("yl");
+        Yl = hardwareMap.servo.get("yl");
         //motorRight.setDirection(DcMotor.Direction.REVERSE);
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-       // Yl.setPosition(0.25);
+       // yl.setPosition(0.25);
     }
 
     @Override
     public void loop() {
-        if (gamepad2.x){
+        //if (gamepad2.x){
             isLifting = !isLifting;
-        }
-        if(isLifting){
-            //flip servo
-        }
-        else{
-            //something else
-        }
+        //}
+        //if(isLifting){
+            //flip1.setPosition(0.70);
+        //}
+        //else{
+            //flip1.setPosition(1);
+        //}
         motorLeft.setPower(gamepad1.left_stick_y);
         motorRight.setPower(gamepad1.right_stick_y);
 
 
 
             //collect glifs
-        if (gamepad1.left_bumper) {
+        if (gamepad1.right_bumper) {
             glifs1.setPower(-1);
             glifs2.setPower(-1);
 
-        } else if (gamepad1.right_bumper) {
+        } else if (gamepad1.left_bumper) {
             glifs1.setPower(1);
             glifs2.setPower(1);
 
@@ -88,35 +88,35 @@ public class teleopTest extends OpMode {
 
         }
         //take relic
-        /*if (gamepad2.y) {
+        //if (gamepad2.y) {
 
-            if (diRyyy == clowStatus.NO) {
-                flagForServo = !flagForServo;
-                diRyyy = clowStatus.CLOSE;
-            }
+          //  if (diRyyy == clowStatus.NO) {
+            //    flagForServo = !flagForServo;
+              //  diRyyy = clowStatus.CLOSE;
+            //}
 
-        } else {
-            diRyyy = clowStatus.NO;
-        }
+        //} else {
+          //  diRyyy = clowStatus.NO;
+        //}
 
-        if (flagForServo) {
-            ser.setPosition(0.50);
-        } else {
-            ser.setPosition(1);
-        }
+        //if (flagForServo) {
+          //  ser.setPosition(0.50);
+        //} else {
+          //  ser.setPosition(1);
+        //}
 
 
         if (gamepad2.dpad_up) {
-
+            //down= up    up=down
             if (dir != Direction.UP) {
-                Yl.setPosition(Yl.getPosition() + 0.32);
+                Yl.setPosition(Yl.getPosition() + 0.31);
                 this.telemetry.addLine("" + Yl.getPosition());
                 dir = Direction.UP;
             }
         } else if (gamepad2.dpad_down) {
 
             if (dir != Direction.DOWN) {
-                Yl.setPosition(Yl.getPosition() - 0.32);
+                Yl.setPosition(Yl.getPosition() - 0.31);
                 this.telemetry.addLine("" + Yl.getPosition());
                 dir = Direction.DOWN;
             }
@@ -124,25 +124,26 @@ public class teleopTest extends OpMode {
             dir = Direction.NO;
         }
 
-        */
-        if (gamepad2.a) {
-            telemetry.addLine("Servo:" + flip1.getPosition());
-            flip1.setPosition(0.38);
 
-        } else {
-            flip1.setPosition(1);
+       // if (gamepad2.a) {
+          //  telemetry.addLine("Servo:" + flip1.getPosition());
+          //  flip1.setPosition(0.38);
+
+        //} else {
+           // flip1.setPosition(0.70);
 
 
 
-        }
+        //}
+
         telemetry.addLine("" +Elev.getCurrentPosition());
         if(-gamepad2.left_stick_y > 0.5) {
             //  Elev.setTargetPosition();
-            Elev.setPower(0.5);
+            Elev.setPower(0.7);
 
         }else  if(-gamepad2.left_stick_y < -0.5){
           //  Elev.setTargetPosition();
-            Elev.setPower(-0.5);
+            Elev.setPower(-0.6);
 
         }else {
             Elev.setPower(0);
