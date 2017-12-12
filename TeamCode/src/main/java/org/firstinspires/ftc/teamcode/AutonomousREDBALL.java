@@ -15,13 +15,14 @@ public class AutonomousREDBALL extends robot  {
     @Override
     public void runOpMode() throws InterruptedException {
         initRobot();
+        nigger.setPosition(0.7);
         waitForStart();
-        //telemetry.addLine(String.valueOf(colorSensor));
-        //telemetry.update();
-        Thread.sleep(30);
-         serball.setPosition(1);
+
+        telemetry.addLine(String.valueOf(colorSensor.argb()));
+
+        //Thread.sleep(30);
         //if (colorSensor.blue()>250){
-            runWithEncoders(0.5, -0.5, 2500, -2500, 5000);
+            //runWithEncoders(0.5, -0.5, 2500, -2500, 5000);
 
         }
         //else{

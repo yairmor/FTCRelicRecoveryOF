@@ -23,7 +23,7 @@ public class AutonomousTEST extends robot  {
         //telemetry.update();
         Thread.sleep(30);
 
-        serball.setPosition(0.69);
+
         if (colorSensor.red()>250){
             runWithEncoders(-0.8, 0.8, -2800, 2800,7000);
 

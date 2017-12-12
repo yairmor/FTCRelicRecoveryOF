@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
 
@@ -20,6 +21,8 @@ public class teleopTest extends OpMode {
     Servo flip1;
     Servo Yl;
     DcMotor Elev;
+    Servo nigger;
+    Servo puz;
     private enum Direction {
         UP, DOWN, NO
     }
@@ -50,9 +53,13 @@ public class teleopTest extends OpMode {
         //flip2 = hardwareMap.servo.get("flip2");
         Elev = hardwareMap.dcMotor.get("Elev");
         Yl = hardwareMap.servo.get("yl");
+        nigger= hardwareMap.servo.get("nigger");
+        puz= hardwareMap.servo.get("puz");
         //motorRight.setDirection(DcMotor.Direction.REVERSE);
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
        // yl.setPosition(0.25);
+        nigger.setPosition(0.7);
+        puz.setPosition(0.26);
     }
 
     @Override

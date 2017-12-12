@@ -16,8 +16,9 @@ public abstract class robot extends LinearOpMode {
     public DcMotor left;
     public DcMotor right;
     public ColorSensor colorSensor;
-    public Servo serball;
-    public Servo yl;
+    public Servo puz;
+    public Servo nigger;
+
     abstract public void runOpMode() throws InterruptedException;
 
     private final String VUFORIA_KEY_CODE = "AZEdxSX/////AAAAGRJHvDefqkuEg/u6gUdjR7lBp/9/VJUSfF+vyquynu2jWx3A1RFYpuNecs0reL12ivg/g8WUYgMopKOjRIxKoqWmjTUBlrIfDlZkFArLx5nTa7KQOAlbaNPIGr1x1wYx5ChhsB+c/NK3YdOJ4LvQ3lqyDus0FDa3W5kj7xifwGZWQupirVwjEpCxDBu7LCtc/1asHgf5OzjC0qUIajlgZYYn0QXB+rdrQPZ4oiBysidFNigDqyQOcFpmL0clUnEVCQ35UjZRmjqYjKzzLXGLzY/jbbsfuwEDuSykOMwS8i5dpHIQFs+CSWSjJHn+nD/TDPY70FDqBZMEOgiP+pUOLXd2SL7FJSaWcOxw7qspEHgQ\n";
@@ -49,7 +50,6 @@ public abstract class robot extends LinearOpMode {
         if (opModeIsActive()) {
             runUsingEncoders();
             resetEncoders();//resets the motors
-
             Thread.sleep(50);
             left.setTargetPosition(LEFT_MOTOR_ENCODER);
             right.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
@@ -82,9 +82,10 @@ public abstract class robot extends LinearOpMode {
         //the name of the configuration
         left =hardwareMap.dcMotor.get("MotorLeft");
         right =hardwareMap.dcMotor.get("MotorRight");
-        serball= hardwareMap.servo.get("serball");
+        puz= hardwareMap.servo.get("puz");
+        nigger= hardwareMap.servo.get("nigger");
         colorSensor = hardwareMap.colorSensor.get("color");
-        yl = hardwareMap.servo.get("yl");
+
     }
 
 }

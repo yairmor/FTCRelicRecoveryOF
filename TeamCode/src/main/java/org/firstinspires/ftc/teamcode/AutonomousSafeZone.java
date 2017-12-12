@@ -17,7 +17,7 @@ public class AutonomousSafeZone extends robot  {
     public void runOpMode() throws InterruptedException {
         initRobot();
         waitForStart();
-        runWithEncoders(0.8, -0.8, 2600, -3000, 6000);
+        runWithEncoders(0.9, -0.9, 2600, -3000, 6000);
 
     }
 }
