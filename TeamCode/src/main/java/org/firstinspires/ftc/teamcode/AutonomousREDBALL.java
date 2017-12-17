@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sun.source.tree.ThrowTree;
 
+
 /**
  * Created by user on 10/12/2017.
  */
@@ -16,18 +17,23 @@ public class AutonomousREDBALL extends robot  {
     public void runOpMode() throws InterruptedException {
         initRobot();
         nigger.setPosition(0.7);
+        puz.setPosition(0.26);
         waitForStart();
 
         telemetry.addLine(String.valueOf(colorSensor.argb()));
 
-        //Thread.sleep(30);
-        //if (colorSensor.blue()>250){
-            //runWithEncoders(0.5, -0.5, 2500, -2500, 5000);
+
+        Thread.sleep(30);
+
+
+        if (colorSensor.blue()>250){
+            nigger.setPosition(1);
+            puz.setPosition(1);
 
         }
-        //else{
-            //runWithEncoders(-0.5, 0.5, 2500, -2500, 5000);
+        else{
+            puz.setPosition(1);
         }
-   // }
-//}
+    }
+}
 

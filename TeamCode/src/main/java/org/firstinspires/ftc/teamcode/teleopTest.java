@@ -5,15 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
 
 /**
  * Created by user on 02/10/2017.
  */
 @TeleOp(name = "TeleOP")
 public class teleopTest extends OpMode {
-    DcMotor motorLeft;
-    DcMotor motorRight;
+    DcMotor motorLeftB;
+    DcMotor motorRightB;
     Servo ser;
     Servo ser2;
     DcMotor glifs1;
@@ -23,6 +22,8 @@ public class teleopTest extends OpMode {
     DcMotor Elev;
     Servo nigger;
     Servo puz;
+    DcMotor motorLeftF;
+    DcMotor motorRightF;
     private enum Direction {
         UP, DOWN, NO
     }
@@ -43,9 +44,16 @@ public class teleopTest extends OpMode {
     @Override
     public void init() {
         //the name of the configuration
-        motorLeft = hardwareMap.dcMotor.get("MotorLeft");
-        motorRight = hardwareMap.dcMotor.get("MotorRight");
-       // ser = hardwareMap.servo.get("Ser1");
+
+        //MOTORS BACK
+        motorLeftB = hardwareMap.dcMotor.get("MotorLeftB");
+        motorRightB = hardwareMap.dcMotor.get("MotorRightB");
+
+        //MOTORS FORWARD
+        motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
+        motorRightF = hardwareMap.dcMotor.get("motorRightF");
+
+        // ser = hardwareMap.servo.get("Ser1");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
@@ -55,8 +63,8 @@ public class teleopTest extends OpMode {
         Yl = hardwareMap.servo.get("yl");
         nigger= hardwareMap.servo.get("nigger");
         puz= hardwareMap.servo.get("puz");
-        //motorRight.setDirection(DcMotor.Direction.REVERSE);
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        //motorRightB.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftB.setDirection(DcMotor.Direction.REVERSE);
        // yl.setPosition(0.25);
         nigger.setPosition(0.7);
         puz.setPosition(0.26);
@@ -73,12 +81,14 @@ public class teleopTest extends OpMode {
         //else{
             //flip1.setPosition(1);
         //}
-        motorLeft.setPower(gamepad1.left_stick_y);
-        motorRight.setPower(gamepad1.right_stick_y);
 
+        motorLeftB.setPower(gamepad1.left_stick_y);
+        motorRightB.setPower(gamepad1.right_stick_y);
 
+        motorLeftF.setPower(gamepad1.left_stick_y);
+        motorRightF.setPower(gamepad1.right_stick_y);
 
-            //collect glifs
+        //collect glifs
         if (gamepad1.right_bumper) {
             glifs1.setPower(-1);
             glifs2.setPower(-1);
@@ -143,7 +153,7 @@ public class teleopTest extends OpMode {
 
         //}
 
-        telemetry.addLine("" +Elev.getCurrentPosition());
+        //telemetry.addLine("" +Elev.getCurrentPosition());
         if(-gamepad2.left_stick_y > 0.5) {
             //  Elev.setTargetPosition();
             Elev.setPower(0.7);
