@@ -63,8 +63,11 @@ public class teleopTest extends OpMode {
         Yl = hardwareMap.servo.get("yl");
         nigger= hardwareMap.servo.get("nigger");
         puz= hardwareMap.servo.get("puz");
-        //motorRightB.setDirection(DcMotor.Direction.REVERSE);
+
         motorLeftB.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftF.setDirection(DcMotor.Direction.FORWARD);
+        motorRightB.setDirection(DcMotor.Direction.FORWARD);
+        motorRightF.setDirection(DcMotor.Direction.FORWARD);
        // yl.setPosition(0.25);
         nigger.setPosition(0.7);
         puz.setPosition(0.26);
@@ -89,11 +92,11 @@ public class teleopTest extends OpMode {
         motorRightF.setPower(gamepad1.right_stick_y);
 
         //collect glifs
-        if (gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
             glifs1.setPower(-1);
             glifs2.setPower(-1);
 
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad1.right_bumper) {
             glifs1.setPower(1);
             glifs2.setPower(1);
 
@@ -154,11 +157,11 @@ public class teleopTest extends OpMode {
         //}
 
         //telemetry.addLine("" +Elev.getCurrentPosition());
-        if(-gamepad2.left_stick_y > 0.5) {
+        if(gamepad2.left_stick_y > 0.5) {
             //  Elev.setTargetPosition();
             Elev.setPower(0.7);
 
-        }else  if(-gamepad2.left_stick_y < -0.5){
+        }else  if(gamepad2.left_stick_y < -0.5){
           //  Elev.setTargetPosition();
             Elev.setPower(-0.6);
 
