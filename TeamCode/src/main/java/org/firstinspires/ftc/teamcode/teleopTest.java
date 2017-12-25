@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -11,8 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 @TeleOp(name = "TeleOP")
 public class teleopTest extends OpMode {
-    DcMotor motorLeftB;
-    DcMotor motorRightB;
+    DcMotor MotorLeftB;
+    DcMotor MotorRightB;
     Servo ser;
     Servo ser2;
     DcMotor glifs1;
@@ -46,8 +45,8 @@ public class teleopTest extends OpMode {
         //the name of the configuration
 
         //MOTORS BACK
-        motorLeftB = hardwareMap.dcMotor.get("MotorLeftB");
-        motorRightB = hardwareMap.dcMotor.get("MotorRightB");
+        MotorLeftB = hardwareMap.dcMotor.get("MotorLeftB");
+        MotorRightB = hardwareMap.dcMotor.get("MotorRightB");
 
         //MOTORS FORWARD
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
@@ -64,13 +63,14 @@ public class teleopTest extends OpMode {
         nigger= hardwareMap.servo.get("nigger");
         puz= hardwareMap.servo.get("puz");
 
-        motorLeftB.setDirection(DcMotor.Direction.REVERSE);
-        motorLeftF.setDirection(DcMotor.Direction.FORWARD);
-        motorRightB.setDirection(DcMotor.Direction.FORWARD);
-        motorRightF.setDirection(DcMotor.Direction.FORWARD);
+        MotorLeftB.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftF.setDirection(DcMotor.Direction.REVERSE);
+
+        MotorRightB.setDirection(DcMotor.Direction.REVERSE);
+        motorRightF.setDirection(DcMotor.Direction.REVERSE);
        // yl.setPosition(0.25);
-        nigger.setPosition(0.7);
-        puz.setPosition(0.26);
+        nigger.setPosition(0.69);
+        puz.setPosition(0.69);
     }
 
     @Override
@@ -85,11 +85,11 @@ public class teleopTest extends OpMode {
             //flip1.setPosition(1);
         //}
 
-        motorLeftB.setPower(gamepad1.left_stick_y);
-        motorRightB.setPower(gamepad1.right_stick_y);
+        MotorLeftB.setPower(-gamepad1.left_stick_y );
+        MotorRightB.setPower(gamepad1.right_stick_y );
 
-        motorLeftF.setPower(gamepad1.left_stick_y);
-        motorRightF.setPower(gamepad1.right_stick_y);
+        motorLeftF.setPower(-gamepad1.left_stick_y );
+        motorRightF.setPower(gamepad1.right_stick_y );
 
         //collect glifs
         if (gamepad1.left_bumper) {

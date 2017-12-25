@@ -64,7 +64,7 @@ public abstract class robot extends LinearOpMode {
             while (left.isBusy() || right.isBusy()) {
                 Thread.sleep(30);//while teleOP keep going
                 telemetry.addLine("leftPos:" + left.getCurrentPosition() + " rightPos: " + right.getCurrentPosition());
-                telemetry.addLine("motorLeftB: " + left.isBusy() + " motorRightB :" + right.isBusy());
+                telemetry.addLine("MotorLeftB: " + left.isBusy() + " MotorRightB :" + right.isBusy());
                 telemetry.update();
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
@@ -80,8 +80,8 @@ public abstract class robot extends LinearOpMode {
     public void initRobot(){
         //cnfig
         //the name of the configuration
-        left =hardwareMap.dcMotor.get("MotorLeft");
-        right =hardwareMap.dcMotor.get("MotorRight");
+        left =hardwareMap.dcMotor.get("MotorLeftB");
+        right =hardwareMap.dcMotor.get("MotorRightB");
         puz= hardwareMap.servo.get("puz");
         nigger= hardwareMap.servo.get("nigger");
         colorSensor = hardwareMap.colorSensor.get("color");
