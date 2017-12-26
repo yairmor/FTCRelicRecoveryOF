@@ -19,6 +19,7 @@ public class redREED extends robot{
         while(true){
             telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
             telemetry.update();
+            colorSensor.enableLed(false);
 
         }
 

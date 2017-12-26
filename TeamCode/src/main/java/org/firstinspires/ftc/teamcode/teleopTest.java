@@ -45,8 +45,8 @@ public class teleopTest extends OpMode {
         //the name of the configuration
 
         //MOTORS BACK
-        MotorLeftB = hardwareMap.dcMotor.get("MotorLeftB");
-        MotorRightB = hardwareMap.dcMotor.get("MotorRightB");
+        MotorLeftB = hardwareMap.dcMotor.get("motorLeftF");
+        MotorRightB = hardwareMap.dcMotor.get("motorRightF");
 
         //MOTORS FORWARD
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
@@ -71,6 +71,7 @@ public class teleopTest extends OpMode {
        // yl.setPosition(0.25);
         nigger.setPosition(0.69);
         puz.setPosition(0.69);
+        Yl.setPosition(0.77);
     }
 
     @Override
@@ -126,14 +127,14 @@ public class teleopTest extends OpMode {
         //}
 
 
-        if (gamepad2.dpad_up) {
+        if (gamepad2.dpad_down) {
             //down= up    up=down
             if (dir != Direction.UP) {
                 Yl.setPosition(Yl.getPosition() + 0.31);
                 this.telemetry.addLine("" + Yl.getPosition());
                 dir = Direction.UP;
             }
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_up) {
 
             if (dir != Direction.DOWN) {
                 Yl.setPosition(Yl.getPosition() - 0.31);
