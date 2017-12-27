@@ -45,7 +45,7 @@ public class BlueTeamRightAngle extends robot  {
         Thread.sleep(30);
 
         // going 85cm backward//
-        runWithEncoders( 0.7,  0.7,  2680,  2680, 7000);
+        runWithEncoders( 0.7,  0.7,  2750,  2750, 7000);
         Thread.sleep(750);
         //turning right//
         runWithEncoders(0.85, -0.85, 1250, -1250, 5000);
@@ -64,6 +64,7 @@ public class BlueTeamRightAngle extends robot  {
         Thread.sleep(30);
             //REVERS STOP//
         runWithEncoders(0.5,0.5, 160, 160, 2000);
+
         // go backward for 15 cm//
         //runWithEncoders(0.5, 0.5, 700, 700, 2000);
         //Thread.sleep(30);
