@@ -45,8 +45,8 @@ public class teleopTest extends OpMode {
         //the name of the configuration
 
         //MOTORS BACK
-        MotorLeftB = hardwareMap.dcMotor.get("motorLeftF");
-        MotorRightB = hardwareMap.dcMotor.get("motorRightF");
+        MotorLeftB = hardwareMap.dcMotor.get("MotorLeftB");
+        MotorRightB = hardwareMap.dcMotor.get("MotorRightB");
 
         //MOTORS FORWARD
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
