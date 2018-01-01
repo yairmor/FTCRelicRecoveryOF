@@ -169,13 +169,12 @@ public class teleopTest extends OpMode {
         }else {
             Elev.setPower(0);
         }
+        glifs1.setPower(gamepad1.right_trigger);
+        glifs2.setPower(-gamepad1.right_trigger);
 
 
+    }// end of method loop
 
-
-
-
-    } // end of method loop
 }
 
 
