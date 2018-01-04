@@ -3,6 +3,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 /**
  * Created by user on 10/12/2017.
@@ -10,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous (name = "RedTeamRightAngle")
 public class RedTeamRightAngle extends robot  {
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,6 +33,14 @@ public class RedTeamRightAngle extends robot  {
         Thread.sleep(650);
         puz.setPosition(0.15);
         Thread.sleep(1000);
+
+        if (vision() == RelicRecoveryVuMark.CENTER){
+            runWithEncoders(0.3, 0.3, 500, 60, 10000);
+        }
+        else if (vision() == RelicRecoveryVuMark.LEFT) {
+         runWithEncoders(0.5, 0.5, 1500, 1500, 3000);
+        }
+
 
 
 
@@ -64,6 +77,12 @@ public class RedTeamRightAngle extends robot  {
         //revers stop//
         runWithEncoders(0.5,0.5, 160, 160, 3000);
 
+
+
+
+
+
+
         // go backward for 15 cm//
         //runWithEncoders(0.5, 0.5, 500, 500, 2000);
         //Thread.sleep(30);
@@ -72,10 +91,7 @@ public class RedTeamRightAngle extends robot  {
         //Thread.sleep(15);
 
 
-      //  runWithEncoders(0.8,0.8,1090,1090,10000);
-       // Thread.sleep(5000);
-       // runWithEncoders(0.4,0.4,-1180,-1180,10000);
-        //Thread.sleep(7000);
+
 
 
 
