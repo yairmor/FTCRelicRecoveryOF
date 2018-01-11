@@ -127,7 +127,8 @@ public abstract class robot extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         yl = hardwareMap.servo.get("yl");
     }
-    public RelicRecoveryVuMark vision(){
+
+    public RelicRecoveryVuMark vision() throws InterruptedException {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -142,9 +143,8 @@ public abstract class robot extends LinearOpMode {
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
 
-
         relicTrackables.activate();
-
+        Thread.sleep(1500);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
@@ -167,7 +167,7 @@ public abstract class robot extends LinearOpMode {
 
                 double tX = trans.get(0);
                 double tY = trans.get(1);
-                double tZ = trans.get(2);
+                double tZ = trans.get(1);
 
                 double rX = rot.firstAngle;
                 double rY = rot.secondAngle;
@@ -186,5 +186,6 @@ public abstract class robot extends LinearOpMode {
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
+
 }
 

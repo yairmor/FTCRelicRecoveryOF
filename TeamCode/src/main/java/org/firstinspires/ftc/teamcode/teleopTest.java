@@ -16,7 +16,6 @@ public class teleopTest extends OpMode {
     Servo ser2;
     DcMotor glifs1;
     DcMotor glifs2;
-    Servo flip1;
     Servo Yl;
     DcMotor Elev;
     Servo nigger;
@@ -56,8 +55,6 @@ public class teleopTest extends OpMode {
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
-        //flip1 = hardwareMap.servo.get("flip1");
-        //flip2 = hardwareMap.servo.get("flip2");
         Elev = hardwareMap.dcMotor.get("Elev");
         Yl = hardwareMap.servo.get("yl");
         nigger= hardwareMap.servo.get("nigger");
@@ -130,14 +127,14 @@ public class teleopTest extends OpMode {
         if (gamepad2.dpad_down) {
             //down= up    up=down
             if (dir != Direction.UP) {
-                Yl.setPosition(Yl.getPosition() + 0.31);
+                Yl.setPosition(Yl.getPosition() + 0.40);
                 this.telemetry.addLine("" + Yl.getPosition());
                 dir = Direction.UP;
             }
         } else if (gamepad2.dpad_up) {
 
             if (dir != Direction.DOWN) {
-                Yl.setPosition(Yl.getPosition() - 0.31);
+                Yl.setPosition(Yl.getPosition() - 0.35);
                 this.telemetry.addLine("" + Yl.getPosition());
                 dir = Direction.DOWN;
             }
@@ -146,16 +143,6 @@ public class teleopTest extends OpMode {
         }
 
 
-       // if (gamepad2.a) {
-          //  telemetry.addLine("Servo:" + flip1.getPosition());
-          //  flip1.setPosition(0.38);
-
-        //} else {
-           // flip1.setPosition(0.70);
-
-
-
-        //}
 
         //telemetry.addLine("" +Elev.getCurrentPosition());
         if(gamepad2.left_stick_y > 0.5) {
