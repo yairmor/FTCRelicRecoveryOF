@@ -144,8 +144,7 @@ public abstract class robot extends LinearOpMode {
         telemetry.update();
 
         relicTrackables.activate();
-        Thread.sleep(1500);
-
+        Thread.sleep(2500);
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {

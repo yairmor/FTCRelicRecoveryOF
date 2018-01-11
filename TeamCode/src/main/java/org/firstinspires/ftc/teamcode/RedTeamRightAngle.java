@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.sun.source.tree.WhileLoopTree;
+import com.sun.tools.javac.util.ForwardingDiagnosticFormatter;
 
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -48,10 +49,26 @@ public class RedTeamRightAngle extends robot  {
 
         if (vision() == RelicRecoveryVuMark.CENTER){
             //going 40cm forward//
-            runWithEncoders(0.8, 0.8, -1365, -1365, 5000);
+            runWithEncoders(0.8, 0.8, -1410, -1410, 5000);
             Thread.sleep(100);
             //turning left//
             runWithEncoders(0.85, 0.85, 1250, -1250, 5000);
+
+            Thread.sleep(100);
+            // going 35cm forward//
+            runWithEncoders(0.85, 0.85, -1237, -1237, 6000);
+            // MAGASH up down two times//
+            yl.setPosition(0.77);
+            Thread.sleep(1000);
+            yl.setPosition(0.33);
+            Thread.sleep(100);
+            runWithEncoders(0.5,0.5, 900, 900, 3000);
+            //drive back
+            runWithEncoders(0.5, 0.5, -1020, -1020, 5000);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 3000);
+            yl.setPosition(0.33);
+
         }
 
         else {
