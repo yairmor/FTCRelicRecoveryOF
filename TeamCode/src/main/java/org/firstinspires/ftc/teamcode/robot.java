@@ -35,6 +35,8 @@ public abstract class robot extends LinearOpMode {
     public Servo puz;
     public Servo nigger;
     public Servo yl;
+    public DcMotor glifs1;
+    public DcMotor glifs2;
     abstract public void runOpMode() throws InterruptedException;
 
     public static final String TAG = "Vuforia VuMark Sample";
@@ -126,6 +128,8 @@ public abstract class robot extends LinearOpMode {
         nigger= hardwareMap.servo.get("nigger");
         colorSensor = hardwareMap.colorSensor.get("color");
         yl = hardwareMap.servo.get("yl");
+        glifs1 = hardwareMap.dcMotor.get("glifs1");
+        glifs2 = hardwareMap.dcMotor.get("glifs2");
     }
 
     public RelicRecoveryVuMark vision() throws InterruptedException {
@@ -144,7 +148,7 @@ public abstract class robot extends LinearOpMode {
         telemetry.update();
 
         relicTrackables.activate();
-        Thread.sleep(2500);
+        Thread.sleep(2600);
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {

@@ -44,16 +44,16 @@ public class RedTeamRightAngle extends robot  {
         nigger.setPosition(0.69);
         puz.setPosition(0.71);
         yl.setPosition(0.70);
+        runWithEncoders(0.5, 0.5, -1092, -1092, 4000);
+        RelicRecoveryVuMark currentVu = vision();
 
-        runWithEncoders(1, 1, -1090, -1090, 4000);
-
-        if (vision() == RelicRecoveryVuMark.CENTER){
+        if (currentVu == RelicRecoveryVuMark.CENTER){
+            yl.setPosition(0.70);
             //going 40cm forward//
             runWithEncoders(0.8, 0.8, -1410, -1410, 5000);
             Thread.sleep(100);
             //turning left//
             runWithEncoders(0.85, 0.85, 1250, -1250, 5000);
-
             Thread.sleep(100);
             // going 35cm forward//
             runWithEncoders(0.85, 0.85, -1237, -1237, 6000);
@@ -70,8 +70,56 @@ public class RedTeamRightAngle extends robot  {
             yl.setPosition(0.33);
 
         }
+        else if (currentVu==RelicRecoveryVuMark.LEFT){
+            yl.setPosition(0.70);
+            runWithEncoders(0.8, 0.8, -2208, -2208, 5000);
 
-        else {
+            Thread.sleep(100);
+            //turning left//
+            runWithEncoders(0.85, 0.85, 1250, -1250, 5000);
+            Thread.sleep(100);
+            // going 35cm forward//
+            runWithEncoders(0.85, 0.85, -1237, -1237, 6000);
+            // MAGASH up down two times//
+            yl.setPosition(0.77);
+            //Thread.sleep(1000);
+            yl.setPosition(0.33);
+            Thread.sleep(50);
+            runWithEncoders(0.5,0.5, 900, 900, 3000);
+            //drive back
+            runWithEncoders(0.5, 0.5, -1020, -1020, 5000);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 3000);
+            yl.setPosition(0.33);
+        }
+        else if (currentVu==RelicRecoveryVuMark.RIGHT){
+            yl.setPosition(0.70);
+            runWithEncoders(0.8, 0.8, -748, -745, 5000);
+
+            Thread.sleep(100);
+            //turning left//
+            runWithEncoders(0.85, 0.85, 1250, -1250, 5000);
+            Thread.sleep(100);
+            // going 35cm forward//
+            runWithEncoders(0.85, 0.85, -1237, -1237, 6000);
+            // MAGASH up down two times//
+            yl.setPosition(0.77);
+            Thread.sleep(500);
+            yl.setPosition(0.33);
+            Thread.sleep(50);
+            runWithEncoders(0.5,0.5, 900, 900, 3000);
+            //drive back
+            runWithEncoders(0.5, 0.5, -1020, -1020, 5000);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 3000);
+            yl.setPosition(0.33);
+
+
+
+        }
+
+
+            else{
             // going 65cm forward//
             runWithEncoders(-0.7, -0.7, -2550, -2550, 7000);
             Thread.sleep(750);
