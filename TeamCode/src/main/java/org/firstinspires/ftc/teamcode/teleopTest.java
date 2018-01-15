@@ -73,11 +73,11 @@ public class teleopTest extends OpMode {
 
     @Override
     public void loop() {
-        //if (gamepad2.x){
+        //if (gamepad2.y){
             isLifting = !isLifting;
         //}
         //if(isLifting){
-            //flip1.setPosition(0.70);
+            //flip1.setPosition(0.43);
         //}
         //else{
             //flip1.setPosition(1);

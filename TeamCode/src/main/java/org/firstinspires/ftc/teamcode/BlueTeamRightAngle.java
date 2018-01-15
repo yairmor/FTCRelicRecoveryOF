@@ -48,11 +48,11 @@ public class BlueTeamRightAngle extends robot  {
         runWithEncoders( 0.7,  0.7,  2750,  2750, 7000);
         Thread.sleep(750);
         //turning right//
-        runWithEncoders(0.85, -0.85, 1250, -1250, 5000);
+        runWithEncoders(0.85, -0.85, 1250, -1250, 7000);
         Thread.sleep(750);
 
         //drive backward to the matrix 30cm//
-        runWithEncoders( -0.6, -0.6,  -1050, -1050, 5000);
+        runWithEncoders( -0.6, -0.6,  -1050, -1050, 7000);
         Thread.sleep(750);
 
         // MAGASH up down two times//
@@ -63,7 +63,7 @@ public class BlueTeamRightAngle extends robot  {
         yl.setPosition(0.33);
         Thread.sleep(30);
             //REVERS STOP//
-        runWithEncoders(0.5,0.5, 160, 160, 2000);
+        runWithEncoders(0.5,0.5, 160, 160, 7000);
 
         // go backward for 15 cm//
         //runWithEncoders(0.5, 0.5, 700, 700, 2000);

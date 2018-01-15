@@ -19,6 +19,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import static java.sql.Types.TIME;
+
 //import static android.R.attr.color;
 
 
@@ -73,8 +75,7 @@ public abstract class robot extends LinearOpMode {
         //motorRightF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-
-    public void runWithEncoders(
+        public void runWithEncoders(
             double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
         double ticksForCM = 1;
         LEFT_MOTOR_ENCODER = (int)(LEFT_MOTOR_ENCODER*ticksForCM);
@@ -106,9 +107,10 @@ public abstract class robot extends LinearOpMode {
                 telemetry.addLine("leftPos:" + MotorLeftB.getCurrentPosition() + " rightPos: " + MotorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftF: " + MotorLeftB.isBusy() + " motorRightF :" + MotorRightB.isBusy());
                 telemetry.update();
-                if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-                   break;
-                }
+                if ((System.currentTimeMillis() - start) > TIME) {
+
+                }//if the time limit is reached then terminate the command
+                    break;
 
             }
 
@@ -144,11 +146,11 @@ public abstract class robot extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        telemetry.addData(">", "Press Play to start");
+        telemetry.addData(">", "yair and alcobi");
         telemetry.update();
 
         relicTrackables.activate();
-        Thread.sleep(2600);
+        Thread.sleep(1000);
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
