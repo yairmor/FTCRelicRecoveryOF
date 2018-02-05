@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 /**
@@ -9,87 +10,159 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  */
 
 @Autonomous (name = "BlueTeamRightAngle")
-public class BlueTeamRightAngle extends robot  {
+public class BlueTeamRightAngle extends robot {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         initRobot();
 
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         // motorRightF.setDirection(DcMotor.Direction.FORWARD);
-        MotorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
-        // MotorRightB.setDirection(DcMotor.Direction.FORWARD);
+        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
+        // motorRightB.setDirection(DcMotor.Direction.FORWARD);
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
+        telemetry.addData(">", "Hello Drivers" );
+        telemetry.addLine("Press Play To Start >");
         telemetry.update();
 
         waitForStart();
-
-        nigger.setPosition(0.72);
+        yl.setPosition(0.68);
+        Thread.sleep(500);
+        ballX.setPosition(0.72);
         Thread.sleep(650);
-        puz.setPosition(0.15);
+        ballY.setPosition(0.15);
         Thread.sleep(1000);
 
 
+        if (colorSensor.red() < 48) {
+            Thread.sleep(500);
+            ballX.setPosition(0.85);
+        } else {
+            Thread.sleep(500);
+            ballX.setPosition(0.23);
 
-        if (colorSensor.red() < 48){
-            nigger.setPosition(0.85);
-        }
-        else{
-            nigger.setPosition(0.23);
         }
 
         Thread.sleep(500);
-        nigger.setPosition(0.69);
-        puz.setPosition(0.71);
+        ballX.setPosition(0.69);
+        ballY.setPosition(0.71);
         yl.setPosition(0.70);
         Thread.sleep(30);
+        runWithEncoders(0.3, 0.3, -50, -50,3000);
+        RelicRecoveryVuMark currentVu = vision();
 
-        // going 85cm backward//
-        runWithEncoders( 0.7,  0.7,  2750,  2750, 7000);
-        Thread.sleep(750);
-        //turning right//
-        runWithEncoders(0.85, -0.85, 1250, -1250, 7000);
-        Thread.sleep(750);
+        if (currentVu == RelicRecoveryVuMark.CENTER) {
+            stopAndResetEncoders();
+            yl.setPosition(0.68);//MAGASH half way
 
-        //drive backward to the matrix 30cm//
-        runWithEncoders( -0.6, -0.6,  -1050, -1050, 7000);
-        Thread.sleep(750);
+            runWithEncoders(0.6, 0.6, 3750, 3500,5000);//going 40cm forward//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
+            Thread.sleep(150);
 
-        // MAGASH up down two times//
-        yl.setPosition(0.33);
-        Thread.sleep(30);
-        yl.setPosition(0.77);
-        Thread.sleep(30);
-        yl.setPosition(0.33);
-        Thread.sleep(30);
-            //REVERS STOP//
-        runWithEncoders(0.5,0.5, 160, 160, 7000);
-
-        // go backward for 15 cm//
-        //runWithEncoders(0.5, 0.5, 700, 700, 2000);
-        //Thread.sleep(30);
-        // going again backward to push the cube//
-       // runWithEncoders(0.5, 0.5, 160, 160, 2000);
-        //Thread.sleep(30);
-
-
-        // finish with the MAGASH down//
-        yl.setPosition(0.77);
-        //Thread.sleep(15);
+            // MAGASH up down //
+            yl.setPosition(0.68);
+            Thread.sleep(100);
+            yl.setPosition(0.33);//MAGASH up
+            Thread.sleep(1500);
+            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            Thread.sleep(100);
+            //drive back
+            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
+            Thread.sleep(100);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 5000);
+            yl.setPosition(0.77);
+        }
 
 
-        //  runWithEncoders(0.8,0.8,1090,1090,10000);
-        // Thread.sleep(5000);
-        // runWithEncoders(0.4,0.4,-1180,-1180,10000);
-        //Thread.sleep(7000);
+        else if (currentVu == RelicRecoveryVuMark.RIGHT) {
+            stopAndResetEncoders();
+            yl.setPosition(0.68);//MAGASH half way
+
+            runWithEncoders(0.6, 0.6, 4450, 4200,5000);//going 40cm forward//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
+            Thread.sleep(150);
+
+            // MAGASH up down //
+            yl.setPosition(0.68);
+            Thread.sleep(100);
+            yl.setPosition(0.33);//MAGASH up
+            Thread.sleep(1500);
+            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            Thread.sleep(100);
+            //drive back
+            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
+            Thread.sleep(100);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 5000);
+            yl.setPosition(0.77);
+        }
 
 
 
+
+        else if (currentVu == RelicRecoveryVuMark.LEFT) {//LEVDOK!!!!!!!
+            stopAndResetEncoders();
+            yl.setPosition(0.68);//MAGASH half way
+
+            runWithEncoders(0.6, 0.6, 3050, 2800,5000);//going 40cm forward//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
+            Thread.sleep(150);
+
+            // MAGASH up down //
+            yl.setPosition(0.68);
+            Thread.sleep(100);
+            yl.setPosition(0.33);//MAGASH up
+            Thread.sleep(1500);
+            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            Thread.sleep(100);
+            //drive back
+            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
+            Thread.sleep(100);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 5000);
+            yl.setPosition(0.77);
+
+
+        }
+        else {
+            stopAndResetEncoders();
+            yl.setPosition(0.68);//MAGASH half way
+
+            runWithEncoders(0.6, 0.6, 2000, 2000,5000);//going 40cm forward//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
+            Thread.sleep(100);
+            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
+            Thread.sleep(150);
+
+            // MAGASH up down //
+            yl.setPosition(0.68);
+            Thread.sleep(100);
+            yl.setPosition(0.33);//MAGASH up
+            Thread.sleep(1500);
+            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            Thread.sleep(100);
+            //drive back
+            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
+            Thread.sleep(100);
+            //Forward
+            runWithEncoders(0.3, 0.3, 500, 500, 5000);
+            yl.setPosition(0.77);
+        }
 
 
     }
 
+
 }
-
-
-

@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.internal.usb.exception.RobotUsbUnspecifiedException;
-
-import java.sql.Time;
 
 
 /**
@@ -18,41 +14,43 @@ public class RedTeamZigZagPotision extends robot  {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //initVuforia();
         initRobot();
 
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         // motorRightF.setDirection(DcMotor.Direction.FORWARD);
-        MotorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
-        // MotorRightB.setDirection(DcMotor.Direction.FORWARD);
+        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
+        // motorRightB.setDirection(DcMotor.Direction.FORWARD);
         stopAndResetEncoders();
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
         telemetry.update();
 
         waitForStart();
 
-        nigger.setPosition(0.69);
+        ballX.setPosition(0.69);
         Thread.sleep(1000);
-        puz.setPosition(0.15);
+        ballY.setPosition(0.15);
         Thread.sleep(1000);
 
 
 
 
         if (colorSensor.red() > 47){
-            nigger.setPosition(0.85);
+            Thread.sleep(500);
+            ballX.setPosition(0.85);
         }
         else{
-            nigger.setPosition(0.23);
+            ballX.setPosition(0.23);
         }
 
         Thread.sleep(500);
-        nigger.setPosition(0.69);
-        puz.setPosition(0.71);
+        ballX.setPosition(0.69);
+        ballY.setPosition(0.71);
         yl.setPosition(0.70);
         Thread.sleep(70);
 
         //going to camera
-        runWithEncoders(0.35, 0.35, -1045, -1045,7000);
+        runWithEncoders(0.3, 0.3, -1045, -1045,7000);
         RelicRecoveryVuMark currentVu = vision();
 
         if (currentVu== RelicRecoveryVuMark.CENTER){
@@ -111,7 +109,6 @@ public class RedTeamZigZagPotision extends robot  {
             Thread.sleep(200);
             runWithEncoders(0.6, 0.6, -1010, -1010,7000);
             Thread.sleep(1000);
-
             yl.setPosition(0.33);//MAGASH up
             Thread.sleep(1000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
@@ -120,6 +117,7 @@ public class RedTeamZigZagPotision extends robot  {
             runWithEncoders(0.5, 0.5, -960, -960,7000);
             Thread.sleep(200);
             //Forward
+
             runWithEncoders(0.3, 0.3, 400, 400,7000);
             Thread.sleep(200);
             yl.setPosition(0.77);
@@ -148,7 +146,7 @@ public class RedTeamZigZagPotision extends robot  {
             Thread.sleep(1000);
 
             yl.setPosition(0.33);//MAGASH up
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
             Thread.sleep(200);
             //drive back
@@ -170,7 +168,7 @@ public class RedTeamZigZagPotision extends robot  {
             //turning right
             runWithEncoders(0.5, 0.5, -1210, 1210,7000);
             Thread.sleep(200);
-            runWithEncoders(0.6, 0.6, 940, 94,70000);
+            runWithEncoders(0.6, 0.6, 940, 940,7000);
             Thread.sleep(200);
             //drive to matriza 49 cm
             runWithEncoders(0.55, 0.55, -1730, -1730,7000);
