@@ -282,13 +282,11 @@ public abstract class robot extends LinearOpMode {
         yl = hardwareMap.servo.get("yl");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
-        Column = "none";
 
 
     }
 
     void initVuforia(){
-        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -300,14 +298,14 @@ public abstract class robot extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        telemetry.addData(">", "yair and alcobi");
+        telemetry.addData("12363 ","Good Luck Robot");
         telemetry.update();
 
-        relicTrackables.activate();
     }
     public RelicRecoveryVuMark vision() throws InterruptedException {
 
-
+        relicTrackables.activate();
+        Thread.sleep(1500);
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {

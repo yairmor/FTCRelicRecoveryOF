@@ -34,14 +34,12 @@ public class RedTeamRightAngle extends robot {
         initVuforia();
         initRobot();
         stopAndResetEncoders();
-        glifs2.setDirection(DcMotor.Direction.REVERSE);
+        glifs2.setDirection(DcMotor.Direction.FORWARD);
         glifs1.setDirection(DcMotor.Direction.FORWARD);
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
 
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
         BNO055IMU.Parameters parameters1 = new BNO055IMU.Parameters();
 
         parameters1.mode = BNO055IMU.SensorMode.IMU;
@@ -65,7 +63,7 @@ public class RedTeamRightAngle extends robot {
             idle();
         }
 
-        telemetry.addData("Mode", "waiting for start");
+        telemetry.addLine("Press Play To Start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
         waitForStart();
@@ -155,14 +153,14 @@ public class RedTeamRightAngle extends robot {
             yl.setPosition(0.636);// Magash All The Way down
             Thread.sleep(150);
 
-            glifs1.setPower(-0.7);
-            glifs2.setPower(-1);
+            glifs1.setPower(0.7);
+            glifs2.setPower(1);
             Thread.sleep(100);
-            runWithEncoders(1, 1, 3150, 3150, 4000);
+            runWithEncoders(1, 1, 3500, 3500, 4000);
            Thread.sleep(100);
-           // glifs1.setPower(0);
+           //glifs1.setPower(0);
            // glifs2.setPower(0);
-            //runWithEncoders(1, 1, -150, 150, 2000);
+            runWithEncoders(1, 1, -100, 100, 2000);
             Thread.sleep(150);
             runWithEncoders(1, 1, -3250, -3250, 4000);
             Thread.sleep(550);
