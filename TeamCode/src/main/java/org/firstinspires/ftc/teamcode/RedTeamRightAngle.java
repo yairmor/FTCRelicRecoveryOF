@@ -35,11 +35,11 @@ public class RedTeamRightAngle extends robot {
         initRobot();
         stopAndResetEncoders();
         glifs2.setDirection(DcMotor.Direction.FORWARD);
-        glifs1.setDirection(DcMotor.Direction.FORWARD);
+        glifs1.setDirection(DcMotor.Direction.REVERSE);
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
-
+/*
         BNO055IMU.Parameters parameters1 = new BNO055IMU.Parameters();
 
         parameters1.mode = BNO055IMU.SensorMode.IMU;
@@ -66,6 +66,7 @@ public class RedTeamRightAngle extends robot {
         telemetry.addLine("Press Play To Start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
+        */
         waitForStart();
         //initVuforia();
         yl.setPosition(0.53);
@@ -90,31 +91,38 @@ public class RedTeamRightAngle extends robot {
         RelicRecoveryVuMark currentVu = vision();
         if (currentVu == RelicRecoveryVuMark.CENTER) {
             stopAndResetEncoders();
-            yl.setPosition(0.53);//MAGASH half way
-            //going 40cm forward//
-            runWithEncoders(0.5, 0.5, -28562, -2402, 5000);
+            yl.setPosition(0.53); //Magash Half Way UP
+            runWithEncoders(1, 1, -2400, -2400, 3500); // Drive To Matritza
+            Thread.sleep(300);
+            runWithEncoders(0.57, 0.57, 1000, -1000, 1500); // Turning 90 Left was 1050
+            Thread.sleep(300);
+            runWithEncoders(0.8, 0.8, -1105, -1105, 3000); // Backing Up to Matritza
+            Thread.sleep(300);
 
+            yl.setPosition(0.20); // Magash All The Way UP
+            Thread.sleep(1500);
+            yl.setPosition(0.636);// Magash All The Way down
+            Thread.sleep(150);
+
+
+            glifs1.setPower(-0.7);
+            glifs2.setPower(-1);
             Thread.sleep(100);
-            //turning left//
-            runWithEncoders(0.7, 0.7, 1190, -1190, 7000);
+            runWithEncoders(1, 1, 3500, 3500, 4500);
             Thread.sleep(100);
-            // going 35cm forward//
-            runWithEncoders(0.75, 0.75, -1237, -1237, 7000);
-            Thread.sleep(1000);
-            // MAGASH up down //
-            yl.setPosition(0.53);
-            Thread.sleep(100);
-            yl.setPosition(0.20);//MAGASH up
-            Thread.sleep(700);
-            runWithEncoders(0.7, 0.7, 900, 900, 7000);
-            Thread.sleep(100);
-            //drive back
-            runWithEncoders(0.6, 0.6, -1020, -1020, 7000);
-            Thread.sleep(100);
-            //Forward
-            runWithEncoders(0.1, 0.15, 500, 500, 5000);
-            yl.setPosition(0.63);
-        } else if (currentVu == RelicRecoveryVuMark.LEFT) { // Vision Target
+            //glifs1.setPower(0);
+            // glifs2.setPower(0);
+            //runWithEncoders(1, 1, -95, 95, 2000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -3250, -3250, 4000);
+            Thread.sleep(550);
+            yl.setPosition(0.20);
+            Thread.sleep(1500);
+            yl.setPosition(0.636);
+
+        }
+
+        else if (currentVu == RelicRecoveryVuMark.LEFT) { // Vision Target
             stopAndResetEncoders();
             yl.setPosition(0.53); // Magash Half Way UP
             runWithEncoders(1, 1, -3268, -3268, 3000); //Drive To Matritza
@@ -138,7 +146,8 @@ public class RedTeamRightAngle extends robot {
             //Forward
             runWithEncoders(0.3, 0.3, 500, 500, 3000);
             yl.setPosition(0.63);
-        } else if (currentVu == RelicRecoveryVuMark.RIGHT) { // Vision Target
+             }
+        else if (currentVu == RelicRecoveryVuMark.RIGHT) { // Vision Target
             stopAndResetEncoders();
             yl.setPosition(0.53); //Magash Half Way UP
             runWithEncoders(0.7, 0.7, -1684, -1684, 3500); // Drive To Matritza
@@ -149,12 +158,12 @@ public class RedTeamRightAngle extends robot {
             Thread.sleep(300);
 
             yl.setPosition(0.20); // Magash All The Way UP
-            Thread.sleep(1500);
+            Thread .sleep(1500);
             yl.setPosition(0.636);// Magash All The Way down
             Thread.sleep(150);
 
-            glifs1.setPower(0.7);
-            glifs2.setPower(1);
+            glifs1.setPower(-0.7);
+            glifs2.setPower(-1);
             Thread.sleep(100);
             runWithEncoders(1, 1, 3500, 3500, 4000);
            Thread.sleep(100);
