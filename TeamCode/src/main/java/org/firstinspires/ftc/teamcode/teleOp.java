@@ -91,9 +91,12 @@ public class teleOp extends OpMode {
 
         motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//sets the speed
+        motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
@@ -119,7 +122,6 @@ public class teleOp extends OpMode {
 
         //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
         //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
-
         motorLeftB.setPower(-gamepad1.left_stick_y);
         motorRightB.setPower(gamepad1.right_stick_y);
 
@@ -218,7 +220,7 @@ public class teleOp extends OpMode {
             Yl.setPosition(0.53);
         }
         else{
-            Yl.setPosition(0.2);
+            Yl.setPosition(0.17);
         }
         if(liftState < 0){
             liftState = 0;

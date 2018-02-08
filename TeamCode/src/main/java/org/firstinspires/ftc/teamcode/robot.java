@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 
 
@@ -46,6 +48,9 @@ public abstract class robot extends LinearOpMode {
     public DcMotor motorRightB;
     public ColorSensor colorSensor;
     public DistanceSensor Distance;
+
+    public ColorSensor ColorDistance;
+
 
     //public DistanceSensor Distance;
     public Servo ballY;
@@ -85,6 +90,7 @@ public abstract class robot extends LinearOpMode {
     VuforiaLocalizer vuforia;
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
+
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
@@ -260,6 +266,7 @@ public abstract class robot extends LinearOpMode {
         }
         stopAndResetEncoders();
         runWithoutEncoders();
+
     }
     //public void runMotorForTime(DcMotor motor, int milisec, double power) throws InterruptedException{
     //activates the motors for set amount of mili seconds
@@ -279,14 +286,19 @@ public abstract class robot extends LinearOpMode {
         ballX = hardwareMap.servo.get("ballX");
         colorSensor = hardwareMap.colorSensor.get("color");
         Distance = hardwareMap.get(DistanceSensor.class, "range");
+        ColorDistance = hardwareMap.get(ColorSensor.class, "range");
         yl = hardwareMap.servo.get("yl");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
+        glifs2.setDirection(DcMotor.Direction.REVERSE);
+        glifs1.setDirection(DcMotor.Direction.FORWARD);
+        motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }
 
-    void initVuforia(){
+    void initVuforia() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -298,10 +310,11 @@ public abstract class robot extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        telemetry.addData("12363 ","Good Luck Robot");
+        telemetry.addData("12363 ", "Good Luck Robot");
         telemetry.update();
 
     }
+
     public RelicRecoveryVuMark vision() throws InterruptedException {
 
         relicTrackables.activate();
@@ -318,7 +331,7 @@ public abstract class robot extends LinearOpMode {
             /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
              * it is perhaps unlikely that you will actually need to act on this pose information, but
              * we illustrate it nevertheless, for completeness. */
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
             telemetry.addData("Pose", format(pose));
 
             if (pose != null) {
@@ -333,8 +346,7 @@ public abstract class robot extends LinearOpMode {
                 double rY = rot.secondAngle;
                 double rZ = rot.thirdAngle;
             }
-        }
-        else {
+        } else {
             telemetry.addData("VuMark", "not visible");
         }
 
@@ -347,11 +359,8 @@ public abstract class robot extends LinearOpMode {
     }
 
 
-
-
-
     public void runWithGyro(int Time) {
-        while (opModeIsActive()) {
+        if(opModeIsActive()){
             // Use gyro to drive in a straight line.
             correction = checkDirection();
 
@@ -393,8 +402,7 @@ public abstract class robot extends LinearOpMode {
     /**
      * Resets the cumulative angle tracking to zero.
      */
-    public void resetAngle()
-    {
+    public void resetAngle() {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         globalAngle = 0;
@@ -402,10 +410,10 @@ public abstract class robot extends LinearOpMode {
 
     /**
      * Get current cumulative angle rotation from last reset.
+     *
      * @return Angle in degrees. + = left, - = right.
      */
-    public double getAngle()
-    {
+    public double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -429,10 +437,10 @@ public abstract class robot extends LinearOpMode {
 
     /**
      * See if we are moving in a straight line and if not return a power correction value.
+     *
      * @return Power adjustment, + is adjust left - is adjust right.
      */
-    public double checkDirection()
-    {
+    public double checkDirection() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
@@ -452,11 +460,11 @@ public abstract class robot extends LinearOpMode {
 
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
+     *
      * @param degrees Degrees to turn, + is left - is right
      */
-    public void rotate(int degrees, double power)
-    {
-        double  leftPower, rightPower;
+    public void rotate(int degrees, double power) {
+        double leftPower, rightPower;
 
         // restart imu movement tracking.
         resetAngle();
@@ -464,17 +472,13 @@ public abstract class robot extends LinearOpMode {
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
 
-        if (degrees < 0)
-        {   // turn right.
+        if (degrees < 0) {   // turn right.
             leftPower = -power;
             rightPower = power;
-        }
-        else if (degrees > 0)
-        {   // turn left.
+        } else if (degrees > 0) {   // turn left.
             leftPower = power;
             rightPower = -power;
-        }
-        else return;
+        } else return;
 
         // set power to rotate.
         motorLeftF.setPower(leftPower);
@@ -483,15 +487,16 @@ public abstract class robot extends LinearOpMode {
         motorRightB.setPower(rightPower);
 
         // rotate until turn is completed.
-        if (degrees < 0)
-        {
+        if (degrees < 0) {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0) {}
+            while (opModeIsActive() && getAngle() == 0) {
+            }
 
-            while (opModeIsActive() && getAngle() > degrees) {}
-        }
-        else    // left turn.
-            while (opModeIsActive() && getAngle() < degrees) {}
+            while (opModeIsActive() && getAngle() > degrees) {
+            }
+        } else    // left turn.
+            while (opModeIsActive() && getAngle() < degrees) {
+            }
 
         // turn the motors off.
         motorRightF.setPower(0);
@@ -503,7 +508,7 @@ public abstract class robot extends LinearOpMode {
 
         // reset angle tracking on new heading.
         resetAngle();
-        }
+    }
 
 
     /**
@@ -511,9 +516,28 @@ public abstract class robot extends LinearOpMode {
      */
 
 
+    public void glifonator(int Time) throws InterruptedException {
+        long start = System.currentTimeMillis();
+        runWithEncoders(1,1,1000,1000,2000);
+        while (opModeIsActive()) {
+        telemetry.addData("Distance (cm)",
+                String.format(Locale.US, "%.02f", Distance.getDistance(DistanceUnit.CM)));
+        telemetry.update();
+        if (Distance.getDistance(DistanceUnit.CM) > 1)
+        {
+            glifs1.setPower(0);
+            glifs2.setPower(0);
 
-    public void GyroCorrect(){
+        }else {
+            glifs2.setPower(-1);
+            glifs1.setPower(-1);
 
+        }
+        if ((System.currentTimeMillis() - start) > Time) {//if the time limit is reached then terminate the command
+                    glifs1.setPower(0);
+                    glifs2.setPower(0);
+                    break;
+                }
+            }
+        }
     }
-}
-

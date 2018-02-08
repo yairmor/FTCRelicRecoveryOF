@@ -17,10 +17,7 @@ public class BlueTeamRightAngle extends robot {
 
         initRobot();
 
-        motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
-        // motorRightF.setDirection(DcMotor.Direction.FORWARD);
-        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
-        // motorRightB.setDirection(DcMotor.Direction.FORWARD);
+
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
         telemetry.addData(">", "Hello Drivers" );
         telemetry.addLine("Press Play To Start >");
