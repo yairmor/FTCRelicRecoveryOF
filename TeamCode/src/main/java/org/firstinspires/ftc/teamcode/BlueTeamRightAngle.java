@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -14,22 +13,21 @@ public class BlueTeamRightAngle extends robot {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        initVuforia();
         initRobot();
 
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
         telemetry.addData(">", "Hello Drivers" );
-        telemetry.addLine("Press Play To Start >");
+        telemetry.addLine("Press Play To Start");
         telemetry.update();
 
         waitForStart();
-        yl.setPosition(0.68);
-        Thread.sleep(500);
-        ballX.setPosition(0.72);
-        Thread.sleep(650);
-        ballY.setPosition(0.15);
+        yl.setPosition(0.53);
+        ballX.setPosition(0.69);
         Thread.sleep(1000);
+        ballY.setPosition(0.15);
+        Thread.sleep(850);
 
 
         if (colorSensor.red() < 48) {
@@ -46,33 +44,30 @@ public class BlueTeamRightAngle extends robot {
         ballY.setPosition(0.71);
         yl.setPosition(0.70);
         Thread.sleep(30);
-        runWithEncoders(0.3, 0.3, -50, -50,3000);
         RelicRecoveryVuMark currentVu = vision();
 
         if (currentVu == RelicRecoveryVuMark.CENTER) {
             stopAndResetEncoders();
-            yl.setPosition(0.68);//MAGASH half way
+            yl.setPosition(0.53); //Magash Half Way UP
+            runWithEncoders(1, 1, 2400, 2400, 3500); // Drive To Matritza
+            Thread.sleep(300);
+            runWithEncoders(0.57, 0.57, -1000,1000, 1500); // Turning 90 Left was 1050
+            Thread.sleep(300);
+            runWithEncoders(0.8, 0.8, 1105, 1105, 3000); // Backing Up to Matritza
+            Thread.sleep(300);
 
-            runWithEncoders(0.6, 0.6, 3750, 3500,5000);//going 40cm forward//
-            Thread.sleep(100);
-            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
-            Thread.sleep(100);
-            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
-            Thread.sleep(150);
-
-            // MAGASH up down //
-            yl.setPosition(0.68);
-            Thread.sleep(100);
-            yl.setPosition(0.33);//MAGASH up
+            yl.setPosition(0.20); // Magash All The Way UP
             Thread.sleep(1500);
-            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            yl.setPosition(0.636);// Magash All The Way down
+            Thread.sleep(150);
+            //Isof glif and put in place
+
             Thread.sleep(100);
-            //drive back
-            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
-            Thread.sleep(100);
-            //Forward
-            runWithEncoders(0.3, 0.3, 500, 500, 5000);
-            yl.setPosition(0.77);
+            glifs2.setPower(-1);
+            glifs1.setPower(-1);
+
+            runWithEncoders(1, 1, -4500, -4500, 4000);
+            glifonator(3000);
         }
 
 

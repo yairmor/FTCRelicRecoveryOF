@@ -25,8 +25,8 @@ public class runwithIMU extends LinearOpMode
 {
     DcMotor                 motorLeftF;
     DcMotor                 motorRightF;
-    DcMotor                 MotorRightB;
-    DcMotor                 MotorLeftB;
+    DcMotor motorRightB;
+    DcMotor                  motorLeftB;
     DigitalChannel          touch;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
@@ -38,16 +38,16 @@ public class runwithIMU extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
-        MotorLeftB = hardwareMap.dcMotor.get("motorLeftB");
-        MotorRightB = hardwareMap.dcMotor.get("motorRightB");
+        motorLeftB = hardwareMap.dcMotor.get("motorLeftB");
+        motorRightB = hardwareMap.dcMotor.get("motorRightB");
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
-        MotorRightB.setDirection(DcMotor.Direction.REVERSE);
+        motorRightB.setDirection(DcMotor.Direction.REVERSE);
 
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        MotorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        MotorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // get a reference to REV Touch sensor.
 
@@ -102,8 +102,8 @@ public class runwithIMU extends LinearOpMode
 
             motorLeftF.setPower(-power + correction);
             motorRightF.setPower(-power);
-            MotorRightB.setPower(-power);
-            MotorLeftB.setPower(-power + correction);
+            motorRightB.setPower(-power);
+            motorLeftB.setPower(-power + correction);
 
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
@@ -117,8 +117,8 @@ public class runwithIMU extends LinearOpMode
         // turn the motors off.
         motorRightF.setPower(0);
         motorLeftF.setPower(0);
-        MotorRightB.setPower(0);
-        MotorLeftB.setPower(0);
+        motorRightB.setPower(0);
+        motorLeftB.setPower(0);
     }
 
     /**
@@ -210,8 +210,8 @@ public class runwithIMU extends LinearOpMode
         // set power to rotate.
         motorLeftF.setPower(leftPower);
         motorRightF.setPower(rightPower);
-        MotorLeftB.setPower(leftPower);
-        MotorRightB.setPower(rightPower);
+        motorLeftB.setPower(leftPower);
+        motorRightB.setPower(rightPower);
 
         // rotate until turn is completed.
         if (degrees < 0)
@@ -227,8 +227,8 @@ public class runwithIMU extends LinearOpMode
         // turn the motors off.
         motorRightF.setPower(0);
         motorLeftF.setPower(0);
-        MotorLeftB.setPower(0);
-        MotorRightB.setPower(0);
+        motorLeftB.setPower(0);
+        motorRightB.setPower(0);
         // wait for rotation to stop.
         sleep(1000);
 

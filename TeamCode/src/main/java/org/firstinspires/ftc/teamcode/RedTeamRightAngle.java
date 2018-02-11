@@ -1,26 +1,12 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
-import java.sql.Time;
-import java.util.Locale;
 
 
 /**
@@ -35,45 +21,25 @@ public class RedTeamRightAngle extends robot {
     public void runOpMode() throws InterruptedException {
         initVuforia();
         initRobot();
+        Elev.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Elev.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        initgyro();
         stopAndResetEncoders();
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
-/*
-        BNO055IMU.Parameters parameters1 = new BNO055IMU.Parameters();
 
-        parameters1.mode = BNO055IMU.SensorMode.IMU;
-        parameters1.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters1.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters1.loggingEnabled = false;
 
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        imu.initialize(parameters1);
-
-        telemetry.addData("Mode", "calibrating...");
-        telemetry.update();
-
-        // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !imu.isGyroCalibrated()) {
-            sleep(50);
-            idle();
-        }
-
-        telemetry.addLine("Press Play To Start");
-        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
-        telemetry.update();
-        */
         waitForStart();
+        telemetry.addData("Elev", Elev.getCurrentPosition());
+        telemetry.update();
         //initVuforia();
         yl.setPosition(0.53);
 
 
         ballX.setPosition(0.69);
         Thread.sleep(1000);
-        ballY.setPosition(0.15);
+        ballY.setPosition(0.13);
         Thread.sleep(1000);
 
         if (colorSensor.red() > 47) {
@@ -85,36 +51,67 @@ public class RedTeamRightAngle extends robot {
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
+        yl.setPosition(0.53); //Magash Half Way UP
 
 
         RelicRecoveryVuMark currentVu = vision();
         if (currentVu == RelicRecoveryVuMark.CENTER) {
             stopAndResetEncoders();
             yl.setPosition(0.53); //Magash Half Way UP
-            runWithEncoders(1, 1, -2400, -2400, 3500); // Drive To Matritza
+            runWithEncoders(1, 1, -2300, -2300, 3500); // Drive To Matritza
             Thread.sleep(300);
-            runWithEncoders(0.57, 0.57, 1000, -1000, 1500); // Turning 90 Left was 1050
+            runWithEncoders(0.57, 0.57, 950, -950, 1500); // Turning 90 Left was 1050
             Thread.sleep(300);
-            runWithEncoders(0.8, 0.8, -1105, -1105, 3000); // Backing Up to Matritza
+            runWithEncoders(0.8, 0.8, -1125, -1125, 3000); // Backing Up to Matritza
             Thread.sleep(300);
-
             yl.setPosition(0.20); // Magash All The Way UP
             Thread.sleep(1500);
-            yl.setPosition(0.636);// Magash All The Way down
+            yl.setPosition(0.65);// Magash All The Way down
             Thread.sleep(150);
-            //Isof glif and put in place
+            //Isof glifs and put in place
 
             Thread.sleep(100);
-            runWithEncoders(0.8, 0.8, 3900, 3900, 3000);
+            glifs1.setPower(1);
+            glifs2.setPower(1);
+            runWithGyro(800, 1, "FORWARD");
+            Thread.sleep(100);
+            runWithGyro(2200, 1, "FORWARD");
+            glifonator(500);
+            if (NumCube == "2"){
 
-                glifonator(3000);
-                Thread.sleep(1500);
-                //Thread.sleep(150);
-                runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
-                Thread.sleep(550);
+            }
+            else {
+                Thread.sleep(100);
+                runWithGyro(300, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1500, .5, "FORWARD");
+                Thread.sleep(100);
+
+            }
+            /*runWithEncoders(1, 1, 2000, 2000, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.76, 0.76, 2000, 2000, 3000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -750, -750, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.8, 0.8, 1500, 1500, 1000);
+            Thread.sleep(100);
+            runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
+            */runWithGyro(2500, .6, "REVERSE");
+            Thread.sleep(150);
+            runWithEncoders(0.7, 0.7, 200, 200, 1000);
+            yl.setPosition(0.53);
+            //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
+            Elev.setTargetPosition(650);
+            Elev.setPower(1);
+
+
+            Thread.sleep(550);
                 yl.setPosition(0.20);
                 Thread.sleep(1500);
                 yl.setPosition(0.636);
+                runWithEncoders(1, 1, 200, 200, 1000);
+                Elev.setTargetPosition(-620);
 
 
             } else if (currentVu == RelicRecoveryVuMark.LEFT) { // Vision Target
@@ -145,9 +142,16 @@ public class RedTeamRightAngle extends robot {
                 yl.setPosition(0.20);
                 Thread.sleep(1500);
                 yl.setPosition(0.636);
+            runWithEncoders(1, 1, 500, 500, 2000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -500, -500, 2000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, 500, 500, 2000);
 
 
-            } else if (currentVu == RelicRecoveryVuMark.RIGHT) { // Vision Target
+
+
+        } else if (currentVu == RelicRecoveryVuMark.RIGHT) { // Vision Target
                 stopAndResetEncoders();
                 yl.setPosition(0.53); //Magash Half Way UP
                 runWithEncoders(0.7, 0.7, -1684, -1684, 3500); // Drive To Matritza

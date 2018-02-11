@@ -22,10 +22,13 @@ public class teleOp extends OpMode {
     Servo ballY;
     DcMotor motorLeftF;
     DcMotor motorRightF;
+    DcMotor Rzroa;
     float   leftPower, rightPower, xValue, yValue;
     boolean lastUpperVaLue;
     boolean lastLowerValue;
     int liftState = 0;
+    float speedCon = 1;
+
 
 
     private enum Direction {
@@ -54,7 +57,7 @@ public class teleOp extends OpMode {
         telemetry.addData("stick", "  y=" + yValue + "  x=" + xValue);
         telemetry.addData("power", "  left=" + leftPower + "  right=" + rightPower);
 
-
+        //motorcontroller = hardwareMap.voltageSensor.get("voltage");
 
         //MOTORS BACK
         motorLeftB = hardwareMap.dcMotor.get("motorLeftB");
@@ -64,7 +67,7 @@ public class teleOp extends OpMode {
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
 
-        // ser = hardwareMap.servo.get("Ser1");
+        ser = hardwareMap.servo.get("Rsler");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
@@ -72,14 +75,15 @@ public class teleOp extends OpMode {
         Yl = hardwareMap.servo.get("yl");
         ballX = hardwareMap.servo.get("ballX");
         ballY = hardwareMap.servo.get("ballY");
+        Rzroa =hardwareMap.dcMotor.get("Rzroa");
 
-
+        Elev.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorLeftB.setDirection(DcMotor.Direction.REVERSE);
         motorLeftF.setDirection(DcMotor.Direction.REVERSE);
 
-        motorRightB.setDirection(DcMotor.Direction.REVERSE);
-        motorRightF.setDirection(DcMotor.Direction.REVERSE);
+        motorRightB.setDirection(DcMotor.Direction.FORWARD);
+        motorRightF.setDirection(DcMotor.Direction.FORWARD);
 
         glifs2.setDirection(DcMotor.Direction.REVERSE);
         glifs1.setDirection(DcMotor.Direction.FORWARD);
@@ -93,6 +97,8 @@ public class teleOp extends OpMode {
         motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Rzroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Rzroa.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//sets the speed
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -101,7 +107,7 @@ public class teleOp extends OpMode {
 
     @Override
     public void loop() {
-
+        telemetry.addLine("forward:" + switchDirection);
         //if (gamepad2.y){
             //isLifting = !isLifting;
         //}
@@ -111,22 +117,39 @@ public class teleOp extends OpMode {
         //else{
             //flip1.setPosition(1);
         //}
-        //yValue = gamepad1.right_stick_x;
-        //xValue = gamepad1.left_stick_y;
 
-        //leftPower =  yValue - xValue;
-        //rightPower = yValue + xValue;
+        if(gamepad1.x){
+            switchDirection = true;
+        }
+        else if(gamepad1.b){
+            switchDirection = false;
+        }
+        if(switchDirection) {
+            motorLeftF.setPower(-gamepad1.left_stick_y*speedCon);
+            motorRightF.setPower(-gamepad1.right_stick_y*speedCon);
+            motorLeftB.setPower(-gamepad1.left_stick_y*speedCon);
+            motorRightB.setPower(-gamepad1.right_stick_y*speedCon);
+        }
+        else{
+            motorLeftF.setPower(gamepad1.right_stick_y*speedCon);
+            motorRightF.setPower(gamepad1.left_stick_y*speedCon);
+            motorLeftB.setPower(gamepad1.right_stick_y*speedCon);
+            motorRightB.setPower(gamepad1.left_stick_y*speedCon);
+        }
 
-        //motorLeftB.setPower(Range.clip(leftPower, -1.0, 1.0));
-        //motorLeftF.setPower(Range.clip(leftPower, -1.0, 1.0));
 
-        //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
-        //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
-        motorLeftB.setPower(-gamepad1.left_stick_y);
-        motorRightB.setPower(gamepad1.right_stick_y);
 
-        motorLeftF.setPower(-gamepad1.left_stick_y);
-        motorRightF.setPower(gamepad1.right_stick_y);
+
+
+
+
+
+
+       // motorLeftB.setPower(-gamepad1.left_stick_y);
+       // motorRightB.setPower(gamepad1.right_stick_y);
+
+        //motorLeftF.setPower(-gamepad1.left_stick_y);
+        //motorRightF.setPower(gamepad1.right_stick_y);
 
 
 
@@ -150,22 +173,22 @@ public class teleOp extends OpMode {
 
         }
         //take relic
-        //if (gamepad2.y) {
+        if (gamepad2.y) {
 
-          //  if (diRyyy == clowStatus.NO) {
-            //    flagForServo = !flagForServo;
-              //  diRyyy = clowStatus.CLOSE;
-            //}
+           if (diRyyy == clowStatus.NO) {
+               flagForServo = !flagForServo;
+               diRyyy = clowStatus.CLOSE;
+            }
 
-        //} else {
-          //  diRyyy = clowStatus.NO;
-        //}
+        } else {
+            diRyyy = clowStatus.NO;
+        }
 
-        //if (flagForServo) {
-          //  ser.setPosition(0.50);
-        //} else {
-          //  ser.setPosition(1);
-        //}
+        if (flagForServo) {
+            ser.setPosition(0.50);
+        } else {
+           ser.setPosition(1);
+        }
 
 
        /* if (gamepad2.dpad_down) {
@@ -188,7 +211,7 @@ public class teleOp extends OpMode {
 */
 
 
-        //telemetry.addLine("" +Elev.getCurrentPosition());
+        telemetry.addLine("Elev: " +Elev.getCurrentPosition());
         if(gamepad2.left_stick_y > 0.5) {
             //  Elev.setTargetPosition();
             Elev.setPower(1);
@@ -200,11 +223,11 @@ public class teleOp extends OpMode {
         }else {
             Elev.setPower(0);
         }
-        glifs1.setPower(gamepad1.right_trigger);
-        glifs2.setPower(gamepad1.right_trigger);
+        glifs1.setPower(-gamepad1.right_trigger);
+        glifs2.setPower(-gamepad1.right_trigger);
 
-        glifs1.setPower(-gamepad1.left_trigger);
-        glifs2.setPower(-gamepad1.left_trigger);
+        glifs1.setPower(gamepad1.left_trigger);
+        glifs2.setPower(gamepad1.left_trigger);
 
         if(!lastUpperVaLue && gamepad2.dpad_up){
             liftState++;
@@ -237,7 +260,23 @@ public class teleOp extends OpMode {
             ballX.setPosition(0.69);
             ballY.setPosition(0.69);
         }
+        //yValue = gamepad1.right_stick_x;
+        //xValue = gamepad1.left_stick_y;
 
+        //leftPower =  yValue - xValue;
+        //rightPower = yValue + xValue;
+
+        //motorLeftB.setPower(Range.clip(leftPower, -1.0, 1.0));
+        //motorLeftF.setPower(Range.clip(leftPower, -1.0, 1.0));
+
+        //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
+        //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
+        Rzroa.setPower(-gamepad2.right_stick_y);
+        if (gamepad1.back){
+            requestOpModeStop();
+            stop();
+
+        }
     }// end of method loop
 
 

@@ -3,17 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
-
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -23,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -30,8 +24,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-
-import java.sql.Time;
 import java.util.Locale;
 
 //import static android.R.attr.color;
@@ -48,7 +40,7 @@ public abstract class robot extends LinearOpMode {
     public DcMotor motorRightB;
     public ColorSensor colorSensor;
     public DistanceSensor Distance;
-
+    public DcMotor Elev;
     public ColorSensor ColorDistance;
 
 
@@ -64,7 +56,8 @@ public abstract class robot extends LinearOpMode {
     public Acceleration gravity;
     public RelicRecoveryVuMark vuMark;
     public Orientation lastAngles = new Orientation();
-    public double globalAngle, power = 0.6, correction;
+    public double globalAngle, correctionF, correctionR;
+    public String NumCube;
     public VuforiaLocalizer vuforiaLocalizer;
     public VuforiaLocalizer.Parameters parameters;
     public VuforiaTrackables visionTargets;
@@ -98,7 +91,13 @@ public abstract class robot extends LinearOpMode {
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
+    public void runWithoutEnc() {
+        motorRightB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLeftF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+    }
     public void RunUsingMyEncders(int enc, int pwr) {
         motorLeftF.setTargetPosition(enc);
         motorRightF.setTargetPosition(enc);
@@ -229,7 +228,9 @@ public abstract class robot extends LinearOpMode {
         double ticksForCM = 1;
         LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
         RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
+        resetAngle();
         if (opModeIsActive()) {
+
             runUsingEncoders();
             resetEncoders();//resets the motors
             Thread.sleep(50);
@@ -252,7 +253,6 @@ public abstract class robot extends LinearOpMode {
 
             long start = System.currentTimeMillis();
             while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                Thread.sleep(30);//while teleOP keep going
                 telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
                 telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
@@ -261,12 +261,12 @@ public abstract class robot extends LinearOpMode {
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
                 }
+
             }
+            stopAndResetEncoders();
+
 
         }
-        stopAndResetEncoders();
-        runWithoutEncoders();
-
     }
     //public void runMotorForTime(DcMotor motor, int milisec, double power) throws InterruptedException{
     //activates the motors for set amount of mili seconds
@@ -278,6 +278,7 @@ public abstract class robot extends LinearOpMode {
     public void initRobot() {
         //cnfig
         //the name of the configuration
+        Elev = hardwareMap.dcMotor.get("Elev");
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
         motorLeftB = hardwareMap.dcMotor.get("motorLeftB");
@@ -292,8 +293,15 @@ public abstract class robot extends LinearOpMode {
         glifs2 = hardwareMap.dcMotor.get("glifs2");
         glifs2.setDirection(DcMotor.Direction.REVERSE);
         glifs1.setDirection(DcMotor.Direction.FORWARD);
+
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
+        Elev.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
     }
@@ -358,45 +366,112 @@ public abstract class robot extends LinearOpMode {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
 
+    void initgyro() {
 
-    public void runWithGyro(int Time) {
-        if(opModeIsActive()){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
+
+        telemetry.addData("Mode", "calibrating...");
+        telemetry.update();
+
+        // make sure the imu gyro is calibrated before continuing.
+        while (!isStopRequested() && !imu.isGyroCalibrated()) {
+            sleep(50);
+            idle();
+        }
+
+        telemetry.addData("Mode", "waiting for start");
+        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
+        telemetry.update();
+    }
+
+    public void runWithGyro(int TIME, double pwr, String direction){
+        runWithoutEnc();
+        if (direction == "REVERSE") {
+            correctionR = 0;
+            motorRightF.setDirection(DcMotor.Direction.FORWARD);
+            motorRightB.setDirection(DcMotor.Direction.FORWARD);
+            motorLeftF.setDirection(DcMotor.Direction.REVERSE);
+            motorLeftB.setDirection(DcMotor.Direction.REVERSE);
+            long start = System.currentTimeMillis();
+            while (opModeIsActive()) {
+
+                correctionR = CheckDirectionR();
+                // Use gyro to drive in a straight line.
+                telemetry.addData("1 imu heading", lastAngles.firstAngle);
+                telemetry.addData("2 global heading", globalAngle);
+                telemetry.addData("3 correction", correctionR);
+                telemetry.update();
+
+                motorLeftF.setPower(-pwr + correctionR);
+                motorRightF.setPower(-pwr);
+                motorRightB.setPower(-pwr);
+                motorLeftB.setPower(-pwr + correctionR);
+
+                // We record the sensor values because we will test them in more than
+                // one place with time passing between those places. See the lesson on
+                // Timing Considerations to know why.
+
+                if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                    break;
+                }
+
+            }
+        } else if (direction == "FORWARD"){
+            correctionF = 0;
+            motorRightF.setDirection(DcMotor.Direction.REVERSE);
+            motorRightB.setDirection(DcMotor.Direction.REVERSE);
+            motorLeftF.setDirection(DcMotor.Direction.FORWARD);
+            motorLeftB.setDirection(DcMotor.Direction.FORWARD);
+                long start = System.currentTimeMillis();
+                while (opModeIsActive()) {
             // Use gyro to drive in a straight line.
-            correction = checkDirection();
+                    correctionF = CheckDirectionF();
+
+
+
 
             telemetry.addData("1 imu heading", lastAngles.firstAngle);
             telemetry.addData("2 global heading", globalAngle);
-            telemetry.addData("3 correction", correction);
+            telemetry.addData("3 correction", correctionF);
             telemetry.update();
 
-            motorLeftF.setPower(-power + correction);
-            motorRightF.setPower(-power);
-            motorRightB.setPower(-power);
-            motorLeftB.setPower(-power + correction);
+            motorLeftF.setPower(-pwr + correctionF);
+            motorRightF.setPower(-pwr);
+            motorRightB.setPower(-pwr);
+            motorLeftB.setPower(-pwr + correctionF);
 
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
             // Timing Considerations to know why.
 
-
-            long start = System.currentTimeMillis();
-            while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
-                telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
-                telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
-                telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
-                telemetry.update();
-                if ((System.currentTimeMillis() - start) > Time) {//if the time limit is reached then terminate the command
-                    break;
-                }
-
-                // turn the motors off.
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
+            if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                break;
             }
         }
+        // drive until end of period.
+
+
+        }
+
+        // turn the motors off.
+        motorRightF.setPower(0);
+        motorLeftF.setPower(0);
+        motorRightB.setPower(0);
+        motorLeftB.setPower(0);
+        motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /**
@@ -434,28 +509,44 @@ public abstract class robot extends LinearOpMode {
 
         return globalAngle;
     }
-
     /**
      * See if we are moving in a straight line and if not return a power correction value.
      *
      * @return Power adjustment, + is adjust left - is adjust right.
      */
-    public double checkDirection() {
+    public double CheckDirectionR() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correction, angle, gain = .10;
+        double correctionR, angle, gain = .10;
 
         angle = getAngle();
 
         if (angle == 0)
-            correction = 0;             // no adjustment.
+            correctionR = 0;             // no adjustment.
         else
-            correction = -angle;        // reverse sign of angle for correction.
+            correctionR = angle;        // reverse sign of angle for correction.
 
-        correction = correction * gain;
+        correctionR = correctionR * gain;
 
-        return correction;
+        return correctionR;
+    }
+    public double CheckDirectionF() {
+        // The gain value determines how sensitive the correction is to direction changes.
+        // You will have to experiment with your robot to get small smooth direction changes
+        // to stay on a straight line.
+        double correctionF, angle, gain = .10;
+
+        angle = getAngle();
+
+        if (angle == 0)
+            correctionF = 0;             // no adjustment.
+        else
+            correctionF = -angle;        // reverse sign of angle for correction.
+
+        correctionF = correctionF * gain;
+
+        return correctionF;
     }
 
     /**
@@ -516,28 +607,32 @@ public abstract class robot extends LinearOpMode {
      */
 
 
-    public void glifonator(int Time) throws InterruptedException {
+    public String glifonator(int Time) throws InterruptedException {
+        glifs2.setPower(1);
+        glifs1.setPower(1);
+
         long start = System.currentTimeMillis();
-        runWithEncoders(1,1,1000,1000,2000);
         while (opModeIsActive()) {
-        telemetry.addData("Distance (cm)",
-                String.format(Locale.US, "%.02f", Distance.getDistance(DistanceUnit.CM)));
-        telemetry.update();
-        if (Distance.getDistance(DistanceUnit.CM) > 1)
-        {
-            glifs1.setPower(0);
-            glifs2.setPower(0);
 
-        }else {
-            glifs2.setPower(-1);
-            glifs1.setPower(-1);
 
-        }
-        if ((System.currentTimeMillis() - start) > Time) {//if the time limit is reached then terminate the command
-                    glifs1.setPower(0);
+                telemetry.addData("Distance (cm)",
+                        String.format(Locale.US, "%.02f", Distance.getDistance(DistanceUnit.CM)));
+                if (Distance.getDistance(DistanceUnit.CM) > 1) {
                     glifs2.setPower(0);
+                    glifs1.setPower(0);
+                    NumCube = "2";
+
                     break;
-                }
-            }
+                }else if((System.currentTimeMillis() - start < Time)){
+                    NumCube = "?";
+                    break;
+                    }
+
+
+
         }
+        return NumCube;
+
     }
+
+}
