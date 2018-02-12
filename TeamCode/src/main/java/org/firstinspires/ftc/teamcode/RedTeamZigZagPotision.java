@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -42,7 +41,7 @@ public class RedTeamZigZagPotision extends robot  {
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
-        yl.setPosition(0.70);
+        Flip.setPosition(0.70);
         Thread.sleep(70);
 
         //going to camera
@@ -51,7 +50,7 @@ public class RedTeamZigZagPotision extends robot  {
 
         if (currentVu== RelicRecoveryVuMark.CENTER){
             stopAndResetEncoders();
-            yl.setPosition(0.70);
+            Flip.setPosition(0.70);
             Thread.sleep(200);
             //going backward 41 cm
             runWithEncoders(0.4, 0.4, -850, -850,7000);
@@ -70,7 +69,7 @@ public class RedTeamZigZagPotision extends robot  {
             runWithEncoders(0.6, 0.6, -1010, -1010,7000);
             Thread.sleep(1000);
 
-            yl.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.33);//MAGASH up
             Thread.sleep(1000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
             Thread.sleep(200);
@@ -80,14 +79,14 @@ public class RedTeamZigZagPotision extends robot  {
             //Forward
             runWithEncoders(0.3, 0.3, 400, 400,7000);
             Thread.sleep(200);
-            yl.setPosition(0.77);
+            Flip.setPosition(0.77);
 
         }
 
 
         if(currentVu== RelicRecoveryVuMark.RIGHT){
             stopAndResetEncoders();
-            yl.setPosition(0.70);
+            Flip.setPosition(0.70);
             Thread.sleep(200);
             //going backward 41 cm
             runWithEncoders(0.4, 0.4, -850, -850,7000);
@@ -105,7 +104,7 @@ public class RedTeamZigZagPotision extends robot  {
             Thread.sleep(200);
             runWithEncoders(0.6, 0.6, -1010, -1010,7000);
             Thread.sleep(1000);
-            yl.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.33);//MAGASH up
             Thread.sleep(1000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
             Thread.sleep(200);
@@ -116,13 +115,13 @@ public class RedTeamZigZagPotision extends robot  {
 
             runWithEncoders(0.3, 0.3, 400, 400,7000);
             Thread.sleep(200);
-            yl.setPosition(0.77);
+            Flip.setPosition(0.77);
         }
 
 
         if(currentVu== RelicRecoveryVuMark.LEFT){
             stopAndResetEncoders();
-            yl.setPosition(0.70);
+            Flip.setPosition(0.70);
             Thread.sleep(200);
             //going backward 41 cm
             runWithEncoders(0.4, 0.4, -850, -850,7000);
@@ -141,7 +140,7 @@ public class RedTeamZigZagPotision extends robot  {
             runWithEncoders(0.6, 0.6, -1010, -1010,7000);
             Thread.sleep(1000);
 
-            yl.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.33);//MAGASH up
             Thread.sleep(2000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
             Thread.sleep(200);
@@ -151,12 +150,12 @@ public class RedTeamZigZagPotision extends robot  {
             //Forward
             runWithEncoders(0.3, 0.3, 400, 400,7000);
             Thread.sleep(200);
-            yl.setPosition(0.77);
+            Flip.setPosition(0.77);
 
         }
         else {
             stopAndResetEncoders();
-            yl.setPosition(0.70);
+            Flip.setPosition(0.70);
             Thread.sleep(200);
             //going backward 41 cm
             runWithEncoders(0.4, 0.4, -850, -850,7000);
@@ -175,7 +174,7 @@ public class RedTeamZigZagPotision extends robot  {
             runWithEncoders(0.6, 0.6, -1010, -1010,7000);
             Thread.sleep(1000);
 
-            yl.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.33);//MAGASH up
             Thread.sleep(1000);
             runWithEncoders(0.5,0.5, 900, 900,7000);
             Thread.sleep(200);
@@ -185,7 +184,7 @@ public class RedTeamZigZagPotision extends robot  {
             //Forward
             runWithEncoders(0.3, 0.3, 400, 400,7000);
             Thread.sleep(200);
-            yl.setPosition(0.77);
+            Flip.setPosition(0.77);
         }
 
 
@@ -229,11 +228,11 @@ public class RedTeamZigZagPotision extends robot  {
         //Thread.sleep(750);
 
         // MAGASH up down two times//
-        //yl.setPosition(0.33);
+        //Flip.setPosition(0.33);
         //Thread.sleep(30);
-        //yl.setPosition(0.77);
+        //Flip.setPosition(0.77);
         //Thread.sleep(30);
-        //yl.setPosition(0.33);
+        //Flip.setPosition(0.33);
         //Thread.sleep(30);
         //revers stop//
         //runWithEncoders(0.5,0.5, 160, 160, 3000);
@@ -246,7 +245,7 @@ public class RedTeamZigZagPotision extends robot  {
        // Thread.sleep(30);
 
         // finish with the MAGASH down//
-        //yl.setPosition(0.77);
+        //Flip.setPosition(0.77);
         //Thread.sleep(15);
 
 

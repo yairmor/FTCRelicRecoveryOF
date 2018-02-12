@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         Elev.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         telemetry.addLine("press play");
         waitForStart();
-        yl.setPosition(0.53);
-        Elev.setTargetPosition(600);
+        Flip.setPosition(0.53);
+        Elev.setTargetPosition(1000);
         Elev.setPower(1);
 
     }

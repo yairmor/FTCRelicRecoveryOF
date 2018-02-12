@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 /**
@@ -39,7 +38,7 @@ public class BlueTeamZigZagPotision extends robot  {
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
-        yl.setPosition(0.70);
+        Flip.setPosition(0.70);
         Thread.sleep(30);
 
         // going 60cm Backward//
@@ -60,12 +59,12 @@ public class BlueTeamZigZagPotision extends robot  {
         Thread.sleep(750);
 
         // MAGASH up down two times//
-        yl.setPosition(0.33);
+        Flip.setPosition(0.33);
         Thread.sleep(30);
         //revers stop//
         runWithEncoders(0.5,0.5, 160, 160,7000);
         Thread.sleep(30);
-        yl.setPosition(0.77);
+        Flip.setPosition(0.77);
 
 
 

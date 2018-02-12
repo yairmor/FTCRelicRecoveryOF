@@ -47,7 +47,7 @@ public abstract class robot extends LinearOpMode {
     //public DistanceSensor Distance;
     public Servo ballY;
     public Servo ballX;
-    public Servo yl;
+    public Servo Flip;
     public DcMotor glifs1;
     public DcMotor glifs2;
     public BNO055IMU imu;
@@ -57,7 +57,7 @@ public abstract class robot extends LinearOpMode {
     public RelicRecoveryVuMark vuMark;
     public Orientation lastAngles = new Orientation();
     public double globalAngle, correctionF, correctionR;
-    public String NumCube;
+    public double NumCube;
     public VuforiaLocalizer vuforiaLocalizer;
     public VuforiaLocalizer.Parameters parameters;
     public VuforiaTrackables visionTargets;
@@ -228,7 +228,6 @@ public abstract class robot extends LinearOpMode {
         double ticksForCM = 1;
         LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
         RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
-        resetAngle();
         if (opModeIsActive()) {
 
             runUsingEncoders();
@@ -288,7 +287,7 @@ public abstract class robot extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         Distance = hardwareMap.get(DistanceSensor.class, "range");
         ColorDistance = hardwareMap.get(ColorSensor.class, "range");
-        yl = hardwareMap.servo.get("yl");
+        Flip = hardwareMap.servo.get("Flip");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
         glifs2.setDirection(DcMotor.Direction.REVERSE);
@@ -607,7 +606,7 @@ public abstract class robot extends LinearOpMode {
      */
 
 
-    public String glifonator(int Time) throws InterruptedException {
+    public double glifonator(int Time) throws InterruptedException {
         glifs2.setPower(1);
         glifs1.setPower(1);
 
@@ -618,19 +617,21 @@ public abstract class robot extends LinearOpMode {
                 telemetry.addData("Distance (cm)",
                         String.format(Locale.US, "%.02f", Distance.getDistance(DistanceUnit.CM)));
                 if (Distance.getDistance(DistanceUnit.CM) > 1) {
-                    glifs2.setPower(0);
-                    glifs1.setPower(0);
-                    NumCube = "2";
+                    NumCube = 2;
+
 
                     break;
-                }else if((System.currentTimeMillis() - start < Time)){
-                    NumCube = "?";
+                }else if((System.currentTimeMillis() - start < Time)) {
+
+
                     break;
-                    }
+                }
+
+                }
 
 
 
-        }
+
         return NumCube;
 
     }

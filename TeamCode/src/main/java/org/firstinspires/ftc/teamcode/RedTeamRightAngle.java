@@ -23,8 +23,8 @@ public class RedTeamRightAngle extends robot {
         initRobot();
         Elev.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Elev.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         initgyro();
+
         stopAndResetEncoders();
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
@@ -34,7 +34,7 @@ public class RedTeamRightAngle extends robot {
         telemetry.addData("Elev", Elev.getCurrentPosition());
         telemetry.update();
         //initVuforia();
-        yl.setPosition(0.53);
+        Flip.setPosition(0.53);
 
 
         ballX.setPosition(0.69);
@@ -45,48 +45,61 @@ public class RedTeamRightAngle extends robot {
         if (colorSensor.red() > 47) {
             ballX.setPosition(0.85);
         } else {
-            ballX.setPosition(0.30);
+            ballX.setPosition(0.35);
         }
 
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
-        yl.setPosition(0.53); //Magash Half Way UP
+        Flip.setPosition(0.53); //Magash Half Way UP
 
 
         RelicRecoveryVuMark currentVu = vision();
         if (currentVu == RelicRecoveryVuMark.CENTER) {
             stopAndResetEncoders();
-            yl.setPosition(0.53); //Magash Half Way UP
-            runWithEncoders(1, 1, -2300, -2300, 3500); // Drive To Matritza
+            Flip.setPosition(0.53); //Magash Half Way UP
+            runWithEncoders(1, 1, -2240, -2240, 2000); // Drive To Matritza
             Thread.sleep(300);
-            runWithEncoders(0.57, 0.57, 950, -950, 1500); // Turning 90 Left was 1050
+            runWithEncoders(0.57, 0.57, 950, -950, 1000); // Turning 90 Left was 1050
             Thread.sleep(300);
-            runWithEncoders(0.8, 0.8, -1125, -1125, 3000); // Backing Up to Matritza
+            runWithEncoders(0.8, 0.8, -1055, -1055, 3000); // Backing Up to Matritza
             Thread.sleep(300);
-            yl.setPosition(0.20); // Magash All The Way UP
+            Flip.setPosition(0.20); // Magash All The Way UP
             Thread.sleep(1500);
-            yl.setPosition(0.65);// Magash All The Way down
+            Flip.setPosition(0.65);// Magash All The Way down
             Thread.sleep(150);
             //Isof glifs and put in place
 
             Thread.sleep(100);
+            resetAngle();
+            Thread.sleep(100);
             glifs1.setPower(1);
             glifs2.setPower(1);
-            runWithGyro(800, 1, "FORWARD");
+            runWithGyro(600, 0.8, "FORWARD");
             Thread.sleep(100);
-            runWithGyro(2200, 1, "FORWARD");
+            runWithGyro(2000, 0.8, "FORWARD");
             glifonator(500);
-            if (NumCube == "2"){
+
+            if (NumCube == 2) {
+
+            } else {
+                Thread.sleep(100);
+                runWithGyro(600, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1300, .8, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
 
             }
-            else {
-                Thread.sleep(100);
-                runWithGyro(300, .8, "REVERSE");
-                Thread.sleep(100);
-                runWithGyro(1500, .5, "FORWARD");
-                Thread.sleep(100);
+            if (NumCube == 2) {
 
+            } else {
+                Thread.sleep(100);
+                runWithGyro(600, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(800, .8, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
             }
             /*runWithEncoders(1, 1, 2000, 2000, 4000);
             Thread.sleep(150);
@@ -97,92 +110,110 @@ public class RedTeamRightAngle extends robot {
             runWithEncoders(0.8, 0.8, 1500, 1500, 1000);
             Thread.sleep(100);
             runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
-            */runWithGyro(2500, .6, "REVERSE");
+            */
+            runWithGyro(3000, .8, "REVERSE");
             Thread.sleep(150);
             runWithEncoders(0.7, 0.7, 200, 200, 1000);
-            yl.setPosition(0.53);
+            Flip.setPosition(0.53);
             //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
-            Elev.setTargetPosition(650);
+            Elev.setTargetPosition(1000);
             Elev.setPower(1);
-
-
+            Thread.sleep(100);
+            runWithEncoders(1, 1, -100, -100, 600);
             Thread.sleep(550);
-                yl.setPosition(0.20);
-                Thread.sleep(1500);
-                yl.setPosition(0.636);
-                runWithEncoders(1, 1, 200, 200, 1000);
-                Elev.setTargetPosition(-620);
+            Flip.setPosition(0.20);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -100, -100, 500);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, 620, 620, 1000);
+            Elev.setTargetPosition(-300);
+            glifs1.setPower(0);
+            glifs2.setPower(0);
+            Flip.setPosition(0.636);
 
 
-            } else if (currentVu == RelicRecoveryVuMark.LEFT) { // Vision Target
-                stopAndResetEncoders();
-                yl.setPosition(0.53); //Magash Half Way UP
-                runWithEncoders(1, 1, -3116, -3116, 3500); // Drive To Matritza
-                Thread.sleep(300);
-                runWithEncoders(0.57, 0.57, 980, -980, 1500); // Turning 90 Left was 1050
-                Thread.sleep(300);
-                runWithEncoders(0.8, 0.8, -1105, -1105, 3000); // Backing Up to Matritza
-                Thread.sleep(300);
+        } else if (currentVu == RelicRecoveryVuMark.LEFT) { // Vision Target
+            stopAndResetEncoders();
+            Flip.setPosition(0.53); //Magash Half Way UP
+            runWithEncoders(1, 1, -3030, -3030, 3500); // Drive To Matritza
+            Thread.sleep(300);
+            runWithEncoders(0.57, 0.57, 950, -950, 1500); // Turning 90 Left was 1050
+            Thread.sleep(300);
+            runWithEncoders(0.8, 0.8, -1105, -1105, 3000); // Backing Up to Matritza
+            Thread.sleep(300);
 
-                yl.setPosition(0.20); // Magash All The Way UP
-                Thread.sleep(1500);
-                yl.setPosition(0.636);// Magash All The Way down
-                Thread.sleep(150);
-                glifs1.setPower(-0.7);
-                glifs2.setPower(-1);
+            Flip.setPosition(0.20); // Magash All The Way UP
+            Thread.sleep(1500);
+            Flip.setPosition(0.636);// Magash All The Way down
+            //Isof glifs and put in place
+
+            Thread.sleep(100);
+            resetAngle();
+            Thread.sleep(100);
+            glifs1.setPower(1);
+            glifs2.setPower(1);
+            runWithGyro(700, 0.8, "FORWARD");
+            Thread.sleep(100);
+            runWithGyro(2000, 0.6, "FORWARD");
+            glifonator(500);
+
+            if (NumCube == 2) {
+
+            } else {
                 Thread.sleep(100);
-                runWithEncoders(0.8, 0.8, 3700, 3700, 3000);
-                Thread.sleep(500);
-                //glifs1.setPower(0);
-                // glifs2.setPower(0);
-                //runWithEncoders(1, 1, -95, 95, 2000);
-                Thread.sleep(150);
-                runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
-                Thread.sleep(550);
-                yl.setPosition(0.20);
-                Thread.sleep(1500);
-                yl.setPosition(0.636);
-            runWithEncoders(1, 1, 500, 500, 2000);
-            Thread.sleep(150);
-            runWithEncoders(1, 1, -500, -500, 2000);
-            Thread.sleep(150);
-            runWithEncoders(1, 1, 500, 500, 2000);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1300, .6, "FORWARD");
+                Thread.sleep(100);
+                glifonator(500);
 
+            }
+            if (NumCube == 2) {
 
+            } else {
+                Thread.sleep(100);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1000, .6, "FORWARD");
+                Thread.sleep(100);
+                glifonator(500);
+            }
+            /*runWithEncoders(1, 1, 2000, 2000, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.76, 0.76, 2000, 2000, 3000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -750, -750, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.8, 0.8, 1500, 1500, 1000);
+            Thread.sleep(100);
+            runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
+            */
+            runWithGyro(2600, .8, "REVERSE");
+
+            Thread.sleep(150);
+            runWithEncoders(0.7, 0.7, 200, 200, 1000);
+            Flip.setPosition(0.53);
+            Thread.sleep(100);
+            //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
+            Elev.setTargetPosition(1000);
+            Elev.setPower(1);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, -100, -100, 600);
+            Thread.sleep(550);
+            Flip.setPosition(0.20);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -100, -100, 500);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, 620, 620, 1000);
+            Elev.setTargetPosition(-300);
+            glifs1.setPower(0);
+            glifs2.setPower(0);
+            Flip.setPosition(0.636);
 
 
         } else if (currentVu == RelicRecoveryVuMark.RIGHT) { // Vision Target
-                stopAndResetEncoders();
-                yl.setPosition(0.53); //Magash Half Way UP
-                runWithEncoders(0.7, 0.7, -1684, -1684, 3500); // Drive To Matritza
-                Thread.sleep(300);
-                runWithEncoders(0.5, 0.5, 1045, -1045, 2000); // Turning 90 Left was 1050
-                Thread.sleep(300);
-                runWithEncoders(0.73, 0.73, -1100, -1100, 3000); // Backing Up to Matritza
-                Thread.sleep(300);
-
-                yl.setPosition(0.20); // Magash All The Way UP
-                Thread.sleep(1500);
-                yl.setPosition(0.636);// Magash All The Way down
-                Thread.sleep(150);
-
-                glifs1.setPower(-0.7);
-                glifs2.setPower(-1);
-                Thread.sleep(100);
-                runWithEncoders(1, 1, 3500, 3500, 4000);
-                Thread.sleep(100);
-                //glifs1.setPower(0);
-                // glifs2.setPower(0);
-                runWithEncoders(1, 1, -100, 100, 2000);
-                Thread.sleep(150);
-                runWithEncoders(1, 1, -3250, -3250, 4000);
-                Thread.sleep(550);
-                yl.setPosition(0.20);
-            }
-
-        } /*else {
             stopAndResetEncoders();
-            yl.setPosition(0.53); //Magash Half Way UP
+            Flip.setPosition(0.53); //Magash Half Way UP
             runWithEncoders(0.7, 0.7, -1684, -1684, 3500); // Drive To Matritza
             Thread.sleep(300);
             runWithEncoders(0.5, 0.5, 1045, -1045, 2000); // Turning 90 Left was 1050
@@ -190,25 +221,153 @@ public class RedTeamRightAngle extends robot {
             runWithEncoders(0.73, 0.73, -1100, -1100, 3000); // Backing Up to Matritza
             Thread.sleep(300);
 
-            yl.setPosition(0.20); // Magash All The Way UP
+            Flip.setPosition(0.20); // Magash All The Way UP
             Thread.sleep(1500);
-            yl.setPosition(0.636);// Magash All The Way down
+            Flip.setPosition(0.636);// Magash All The Way down
             Thread.sleep(150);
+            //Isof glifs and put in place
 
-            glifs1.setPower(-0.7);
-            glifs2.setPower(-1);
             Thread.sleep(100);
-            runWithEncoders(1, 1, 3500, 3500, 4000);
+            resetAngle();
             Thread.sleep(100);
-            //glifs1.setPower(0);
-            // glifs2.setPower(0);
-            runWithEncoders(1, 1, -100, 100, 2000);
+            glifs1.setPower(1);
+            glifs2.setPower(1);
+            runWithGyro(700, 0.8, "FORWARD");
+            Thread.sleep(100);
+            runWithGyro(2000, 0.8, "FORWARD");
+            glifonator(500);
+
+            if (NumCube == 2) {
+
+            } else {
+                Thread.sleep(100);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1300, .6, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
+
+            }
+            if (NumCube == 2) {
+
+            } else {
+                Thread.sleep(100);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1000, .8, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
+            }
+            /*runWithEncoders(1, 1, 2000, 2000, 4000);
             Thread.sleep(150);
-            runWithEncoders(1, 1, -3250, -3250, 4000);
+            runWithEncoders(0.76, 0.76, 2000, 2000, 3000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -750, -750, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.8, 0.8, 1500, 1500, 1000);
+            Thread.sleep(100);
+            runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
+            */
+            runWithGyro(2600, .8, "REVERSE");
+            Thread.sleep(150);
+            runWithEncoders(0.7, 0.7, 200, 200, 1000);
+            Flip.setPosition(0.53);
+            //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
+            Elev.setTargetPosition(1000);
+            Elev.setPower(1);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, -100, -100, 600);
             Thread.sleep(550);
-            yl.setPosition(0.20);
+            Flip.setPosition(0.20);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -100, -100, 500);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, 620, 620, 1000);
+            Elev.setTargetPosition(-300);
+            glifs1.setPower(0);
+            glifs2.setPower(0);
+            Flip.setPosition(0.636);
 
-        } */
+
+        } else {
+            stopAndResetEncoders();
+            Flip.setPosition(0.53); //Magash Half Way UP
+            runWithEncoders(1, 1, -2240, -2240, 2000); // Drive To Matritza
+            Thread.sleep(300);
+            runWithEncoders(0.57, 0.57, 950, -950, 1000); // Turning 90 Left was 1050
+            Thread.sleep(300);
+            runWithEncoders(0.8, 0.8, -1055, -1055, 3000); // Backing Up to Matritza
+            Thread.sleep(300);
+            Flip.setPosition(0.20); // Magash All The Way UP
+            Thread.sleep(1500);
+            Flip.setPosition(0.65);// Magash All The Way down
+            Thread.sleep(150);
+            //Isof glifs and put in place
+
+            Thread.sleep(100);
+            resetAngle();
+            Thread.sleep(100);
+            glifs1.setPower(1);
+            glifs2.setPower(1);
+            runWithGyro(700, 0.8, "FORWARD");
+            Thread.sleep(100);
+            runWithGyro(2000, 0.8, "FORWARD");
+            glifonator(500);
+
+            if (NumCube == 2) {
+
+            } else {
+                Thread.sleep(100);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1300, .6, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
+
+            }
+            if (NumCube == 2) {
+
+            } else {
+                Thread.sleep(100);
+                runWithGyro(500, .8, "REVERSE");
+                Thread.sleep(100);
+                runWithGyro(1000, .8, "FORWARD");
+                Thread.sleep(100);
+                glifonator(700);
+            }
+            /*runWithEncoders(1, 1, 2000, 2000, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.76, 0.76, 2000, 2000, 3000);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -750, -750, 4000);
+            Thread.sleep(150);
+            runWithEncoders(0.8, 0.8, 1500, 1500, 1000);
+            Thread.sleep(100);
+            runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
+            */
+            runWithGyro(2600, .8, "REVERSE");
+            Thread.sleep(150);
+            runWithEncoders(0.7, 0.7, 200, 200, 1000);
+            Flip.setPosition(0.53);
+            //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
+            Elev.setTargetPosition(650);
+            Elev.setPower(1);
+            Thread.sleep(100);
+            runWithEncoders(1, 1, -100, -100, 600);
+            Thread.sleep(550);
+            Flip.setPosition(0.20);
+            Thread.sleep(150);
+            runWithEncoders(1, 1, -100, -100, 500);
+            Thread.sleep(100);
+
+            runWithEncoders(1, 1, 550, 550, 1000);
+            Elev.setTargetPosition(-620);
+            glifs1.setPower(0);
+            glifs2.setPower(0);
+            Flip.setPosition(0.636);
+
+        }
+    }
 
            /* while (opModeIsActive()) {
                 // Use gyro to drive in a straight line.
@@ -254,9 +413,9 @@ public class RedTeamRightAngle extends robot {
         Thread.sleep(150);
         runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
         Thread.sleep(550);
-        yl.setPosition(0.20);
+        Flip.setPosition(0.20);
         Thread.sleep(1500);
-        yl.setPosition(0.636);
+        Flip.setPosition(0.636);
 
 
 
@@ -435,20 +594,20 @@ public class RedTeamRightAngle extends robot {
             runWithEncoders(0.45, 0.45, -1137, -1137, 3000);// going 35cm forward//
             // MAGASH up down two times//
             Thread.sleep(100);
-            yl.setPosition(0.20);
+            Flip.setPosition(0.20);
             Thread.sleep(1000);
             runWithEncoders(0.77, 0.77, 900, 900, 3000);
             //drive back
             runWithEncoders(0.6, 0.6, -1020, -1020, 3000);
             //Forward
             runWithEncoders(0.5, 0.5, 500, 500, 3000);
-            yl.setPosition(0.63);
+            Flip.setPosition(0.63);
 
 
         } else {
 
             stopAndResetEncoders();
-            yl.setPosition(0.53);
+            Flip.setPosition(0.53);
             runWithEncoders(0.6, 0.6, -2205, -2205, 7000);
 
             Thread.sleep(500);
@@ -459,16 +618,16 @@ public class RedTeamRightAngle extends robot {
             runWithEncoders(0.6, 0.6, -1237, -1237, 7000);
             // MAGASH up down two times//
             Thread.sleep(100);
-            yl.setPosition(0.53);
+            Flip.setPosition(0.53);
             Thread.sleep(100);
-            yl.setPosition(0.20);
+            Flip.setPosition(0.20);
             Thread.sleep(1000);
             runWithEncoders(0.5, 0.5, 900, 900, 7000);
             //drive back
             runWithEncoders(0.5, 0.5, -1020, -1020, 7000);
             //Forward
             runWithEncoders(0.3, 0.3, 500, 500, 7000);
-            yl.setPosition(0.63);
+            Flip.setPosition(0.63);
                 */
 
 
@@ -476,7 +635,7 @@ public class RedTeamRightAngle extends robot {
         //runWithEncoders(0.5, 0.5, 500, 500, 2000);
         //Thread.sleep(30);
         // finish with the MAGASH down//
-        // yl.setPosition(0.77);
+        // Flip.setPosition(0.77);
         //Thread.sleep(15);
 
 

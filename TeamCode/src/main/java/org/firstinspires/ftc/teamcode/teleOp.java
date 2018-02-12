@@ -12,17 +12,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class teleOp extends OpMode {
     DcMotor motorLeftB;
     DcMotor motorRightB;
-    Servo ser;
+    Servo RelicServo;
     Servo ser2;
     DcMotor glifs1;
     DcMotor glifs2;
-    Servo Yl;
+    Servo Flip;
     DcMotor Elev;
     Servo ballX;
     Servo ballY;
     DcMotor motorLeftF;
     DcMotor motorRightF;
-    DcMotor Rzroa;
+    DcMotor RelicMotor;
     float   leftPower, rightPower, xValue, yValue;
     boolean lastUpperVaLue;
     boolean lastLowerValue;
@@ -67,15 +67,15 @@ public class teleOp extends OpMode {
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
 
-        ser = hardwareMap.servo.get("Rsler");
+        RelicServo = hardwareMap.servo.get("Rsler");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
         Elev = hardwareMap.dcMotor.get("Elev");
-        Yl = hardwareMap.servo.get("yl");
+        Flip = hardwareMap.servo.get("Flip");
         ballX = hardwareMap.servo.get("ballX");
         ballY = hardwareMap.servo.get("ballY");
-        Rzroa =hardwareMap.dcMotor.get("Rzroa");
+        RelicMotor =hardwareMap.dcMotor.get("RelicMotor");
 
         Elev.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -90,15 +90,15 @@ public class teleOp extends OpMode {
         //telemetry.update();
         ballX.setPosition(0.69);
         ballY.setPosition(0.69);
-        Yl.setPosition(0.63);
+        Flip.setPosition(0.63);
 
 
         motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Rzroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Rzroa.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RelicMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RelicMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//sets the speed
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -185,24 +185,24 @@ public class teleOp extends OpMode {
         }
 
         if (flagForServo) {
-            ser.setPosition(0.50);
+            RelicServo.setPosition(0.50);
         } else {
-           ser.setPosition(1);
+           RelicServo.setPosition(1);
         }
 
 
        /* if (gamepad2.dpad_down) {
             //down= up    up=down
             if (dir != Direction.UP) {
-                Yl.setPosition(Yl.getPosition() + 0.50);
-                this.telemetry.addLine("" + Yl.getPosition());
+                Flip.setPosition(Flip.getPosition() + 0.50);
+                this.telemetry.addLine("" + Flip.getPosition());
                 dir = Direction.UP;
             }
         } else if (gamepad2.dpad_up) {
 
             if (dir != Direction.DOWN) {
-                Yl.setPosition(Yl.getPosition() - 0.45);
-                this.telemetry.addLine("" + Yl.getPosition());
+                Flip.setPosition(Flip.getPosition() - 0.45);
+                this.telemetry.addLine("" + Flip.getPosition());
                 dir = Direction.DOWN;
             }
         } else {
@@ -237,13 +237,13 @@ public class teleOp extends OpMode {
             liftState--;
         }
         if(liftState == 0){
-            Yl.setPosition(0.65);
+            Flip.setPosition(0.65);
         }
         else if(liftState == 1){
-            Yl.setPosition(0.53);
+            Flip.setPosition(0.53);
         }
         else{
-            Yl.setPosition(0.17);
+            Flip.setPosition(0.17);
         }
         if(liftState < 0){
             liftState = 0;
@@ -271,7 +271,7 @@ public class teleOp extends OpMode {
 
         //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
         //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
-        Rzroa.setPower(-gamepad2.right_stick_y);
+        RelicMotor.setPower(-gamepad2.right_stick_y);
         if (gamepad1.back){
             requestOpModeStop();
             stop();
