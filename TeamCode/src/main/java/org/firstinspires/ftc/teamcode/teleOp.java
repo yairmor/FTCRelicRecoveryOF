@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by user on 02/10/2017.
@@ -29,8 +30,8 @@ public class teleOp extends OpMode {
     int liftState = 0;
     float speedCon = 1;
 
-
-
+    boolean slowMode = false;
+    boolean lastPressedSlowMode;
     private enum Direction {
         UP, DOWN, NO
     }
@@ -67,7 +68,7 @@ public class teleOp extends OpMode {
         motorLeftF = hardwareMap.dcMotor.get("motorLeftF");
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
 
-        RelicServo = hardwareMap.servo.get("Rsler");
+        RelicServo = hardwareMap.servo.get("RelicServo");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifs1 = hardwareMap.dcMotor.get("glifs1");
         glifs2 = hardwareMap.dcMotor.get("glifs2");
@@ -87,6 +88,7 @@ public class teleOp extends OpMode {
 
         glifs2.setDirection(DcMotor.Direction.REVERSE);
         glifs1.setDirection(DcMotor.Direction.FORWARD);
+        RelicMotor.setDirection(DcMotor.Direction.FORWARD);
         //telemetry.update();
         ballX.setPosition(0.69);
         ballY.setPosition(0.69);
@@ -107,7 +109,7 @@ public class teleOp extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addLine("forward:" + switchDirection);
+       // telemetry.addLine("forward:" + switchDirection);
         //if (gamepad2.y){
             //isLifting = !isLifting;
         //}
@@ -117,25 +119,10 @@ public class teleOp extends OpMode {
         //else{
             //flip1.setPosition(1);
         //}
-
-        if(gamepad1.x){
-            switchDirection = true;
-        }
-        else if(gamepad1.b){
-            switchDirection = false;
-        }
-        if(switchDirection) {
-            motorLeftF.setPower(-gamepad1.left_stick_y*speedCon);
-            motorRightF.setPower(-gamepad1.right_stick_y*speedCon);
-            motorLeftB.setPower(-gamepad1.left_stick_y*speedCon);
-            motorRightB.setPower(-gamepad1.right_stick_y*speedCon);
-        }
-        else{
-            motorLeftF.setPower(gamepad1.right_stick_y*speedCon);
-            motorRightF.setPower(gamepad1.left_stick_y*speedCon);
-            motorLeftB.setPower(gamepad1.right_stick_y*speedCon);
-            motorRightB.setPower(gamepad1.left_stick_y*speedCon);
-        }
+        motorLeftF.setPower(-gamepad1.left_stick_y);
+        motorRightF.setPower(-gamepad1.right_stick_y);
+        motorLeftB.setPower(-gamepad1.left_stick_y);
+        motorRightB.setPower(-gamepad1.right_stick_y);
 
 
 
@@ -145,12 +132,15 @@ public class teleOp extends OpMode {
 
 
 
+
+
+        /*
        // motorLeftB.setPower(-gamepad1.left_stick_y);
        // motorRightB.setPower(gamepad1.right_stick_y);
 
         //motorLeftF.setPower(-gamepad1.left_stick_y);
         //motorRightF.setPower(gamepad1.right_stick_y);
-
+        */
 
 
         telemetry.addLine("MLB:" + motorLeftB.getCurrentPosition() + " MRB: " + motorRightB.getCurrentPosition());
@@ -224,10 +214,10 @@ public class teleOp extends OpMode {
             Elev.setPower(0);
         }
         glifs1.setPower(-gamepad1.right_trigger);
-        glifs2.setPower(-gamepad1.right_trigger);
+        glifs2.setPower(gamepad1.right_trigger);
 
         glifs1.setPower(gamepad1.left_trigger);
-        glifs2.setPower(gamepad1.left_trigger);
+        glifs2.setPower(-gamepad1.left_trigger);
 
         if(!lastUpperVaLue && gamepad2.dpad_up){
             liftState++;
@@ -272,11 +262,27 @@ public class teleOp extends OpMode {
         //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
         //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
         RelicMotor.setPower(-gamepad2.right_stick_y);
-        if (gamepad1.back){
-            requestOpModeStop();
-            stop();
-
+        if(!lastPressedSlowMode && gamepad2.a){
+            slowMode = !slowMode;
         }
+        if(slowMode) {
+            double leftStick75 = Range.clip(gamepad1.left_stick_y, -0.85, 0.85);
+            double rightStick75 = Range.clip(gamepad1.right_stick_y, -0.85, 0.85);
+            motorLeftF.setPower(leftStick75);
+            motorRightF.setPower(-rightStick75);
+            motorLeftB.setPower(-leftStick75);
+            motorRightB.setPower(-rightStick75);
+        }
+        else{
+            motorLeftF.setPower(-gamepad1.left_stick_y);
+            motorRightF.setPower(-gamepad1.right_stick_y);
+            motorLeftB.setPower(-gamepad1.left_stick_y);
+            motorRightB.setPower(-gamepad1.right_stick_y);
+        }
+        lastPressedSlowMode = gamepad2.a;
+
+        telemetry.addLine("Relic: " +RelicMotor.getCurrentPosition());
+        telemetry.addLine("SlowMode: " + slowMode);
     }// end of method loop
 
 
