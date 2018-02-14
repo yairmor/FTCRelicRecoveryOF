@@ -48,8 +48,8 @@ public abstract class robot extends LinearOpMode {
     public Servo ballY;
     public Servo ballX;
     public Servo Flip;
-    public DcMotor glifs1;
-    public DcMotor glifs2;
+    public DcMotor glifsLeft;
+    public DcMotor glifsRight;
     public BNO055IMU imu;
     public String Column;
     public Orientation angles;
@@ -288,10 +288,10 @@ public abstract class robot extends LinearOpMode {
         Distance = hardwareMap.get(DistanceSensor.class, "range");
         ColorDistance = hardwareMap.get(ColorSensor.class, "range");
         Flip = hardwareMap.servo.get("Flip");
-        glifs1 = hardwareMap.dcMotor.get("glifs1");
-        glifs2 = hardwareMap.dcMotor.get("glifs2");
-        glifs2.setDirection(DcMotor.Direction.REVERSE);
-        glifs1.setDirection(DcMotor.Direction.FORWARD);
+        glifsLeft = hardwareMap.dcMotor.get("glifsLeft");
+        glifsRight = hardwareMap.dcMotor.get("glifsRight");
+        glifsRight.setDirection(DcMotor.Direction.FORWARD);
+        glifsLeft.setDirection(DcMotor.Direction.FORWARD);
 
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -607,8 +607,8 @@ public abstract class robot extends LinearOpMode {
 
 
     public double glifonator(int Time) throws InterruptedException {
-        glifs2.setPower(1);
-        glifs1.setPower(1);
+        glifsRight.setPower(1);
+        glifsLeft.setPower(1);
 
         long start = System.currentTimeMillis();
         while (opModeIsActive()) {

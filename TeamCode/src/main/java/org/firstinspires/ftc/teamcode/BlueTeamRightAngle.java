@@ -15,7 +15,7 @@ public class BlueTeamRightAngle extends robot {
     public void runOpMode() throws InterruptedException {
         initVuforia();
         initRobot();
-
+        initgyro();
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
         telemetry.addData(">", "Hello Drivers" );
@@ -42,7 +42,7 @@ public class BlueTeamRightAngle extends robot {
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
-        Flip.setPosition(0.70);
+        Flip.setPosition(0.53);
         Thread.sleep(30);
         RelicRecoveryVuMark currentVu = vision();
 
@@ -60,20 +60,13 @@ public class BlueTeamRightAngle extends robot {
             Thread.sleep(1500);
             Flip.setPosition(0.636);// Magash All The Way down
             Thread.sleep(150);
-            //Isof glif and put in place
 
-            Thread.sleep(100);
-            glifs2.setPower(-1);
-            glifs1.setPower(-1);
-
-            runWithEncoders(1, 1, -4500, -4500, 4000);
-            glifonator(3000);
         }
 
 
         else if (currentVu == RelicRecoveryVuMark.RIGHT) {
             stopAndResetEncoders();
-            Flip.setPosition(0.68);//MAGASH half way
+            Flip.setPosition(0.53);//MAGASH half way
 
             runWithEncoders(0.6, 0.6, 4450, 4200,5000);//going 40cm forward//
             Thread.sleep(100);
@@ -83,18 +76,10 @@ public class BlueTeamRightAngle extends robot {
             Thread.sleep(150);
 
             // MAGASH up down //
-            Flip.setPosition(0.68);
+            Flip.setPosition(0.2);
             Thread.sleep(100);
-            Flip.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.636);//MAGASH up
             Thread.sleep(1500);
-            runWithEncoders(0.7, 0.7, 900, 900,7000);
-            Thread.sleep(100);
-            //drive back
-            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
-            Thread.sleep(100);
-            //Forward
-            runWithEncoders(0.3, 0.3, 500, 500, 5000);
-            Flip.setPosition(0.77);
         }
 
 
@@ -102,28 +87,20 @@ public class BlueTeamRightAngle extends robot {
 
         else if (currentVu == RelicRecoveryVuMark.LEFT) {//LEVDOK!!!!!!!
             stopAndResetEncoders();
-            Flip.setPosition(0.68);//MAGASH half way
+            Flip.setPosition(0.53);//MAGASH half way
 
-            runWithEncoders(0.6, 0.6, 3050, 2800,5000);//going 40cm forward//
+            runWithEncoders(1 ,1, 3050, 3050,2000);//going 40cm forward//
             Thread.sleep(100);
-            runWithEncoders(0.6, 0.6, 1260, -1260,4000);//turning LEFT//
+            runWithEncoders(0.8, 0.8, 1260, -1260,2000);//turning LEFT//
             Thread.sleep(100);
-            runWithEncoders(0.6, 0.6, -1020, -1020, 5000);//drive to matriza
+            runWithEncoders(0.6, 0.6, -1020, -1020, 2000);//drive to matriza
             Thread.sleep(150);
 
             // MAGASH up down //
-            Flip.setPosition(0.68);
-            Thread.sleep(100);
-            Flip.setPosition(0.33);//MAGASH up
+            Flip.setPosition(0.2);
             Thread.sleep(1500);
-            runWithEncoders(0.7, 0.7, 900, 900,7000);
+            Flip.setPosition(0.53);//MAGASH up
             Thread.sleep(100);
-            //drive back
-            runWithEncoders(0.6, 0.6, -1020, -1020,5000);
-            Thread.sleep(100);
-            //Forward
-            runWithEncoders(0.3, 0.3, 500, 500, 5000);
-            Flip.setPosition(0.77);
 
 
         }
