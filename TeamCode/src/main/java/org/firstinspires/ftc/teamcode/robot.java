@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -41,9 +45,10 @@ public abstract class robot extends LinearOpMode {
     public ColorSensor colorSensor;
     public DistanceSensor Distance;
     public DcMotor Elev;
+    //public CRServo GservoL;
+    public Servo GservoL;
     public ColorSensor ColorDistance;
-
-
+    public String Brit = "";
     //public DistanceSensor Distance;
     public Servo ballY;
     public Servo ballX;
@@ -222,6 +227,59 @@ public abstract class robot extends LinearOpMode {
         //motorLeftF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //motorRightF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+    public void Kadorim(String Brit) throws InterruptedException {
+        float hsvValues[] = {0F, 0F, 0F};
+        int bos = 0;
+
+        // values is a reference to the hsvValues array.
+        final float values[] = hsvValues;
+
+        // sometimes it helps to multiply the raw RGB values with a scale factor
+        // to amplify/attentuate the measured values.
+        final double SCALE_FACTOR = 255;
+
+        // get a reference to the RelativeLayout so we can change the background
+        // color of the Robot Controller app to match the hue detected by the RGB sensor.
+        int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
+        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+        // wait for the start button to be pressed.
+        Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
+                (int) (colorSensor.green() * SCALE_FACTOR),
+                (int) (colorSensor.blue() * SCALE_FACTOR),
+                hsvValues);
+        if (Brit == "BLUE"){
+            if (hsvValues[0] > 30) {
+                bos = 1;
+            }
+            if (hsvValues[0] < 215){
+                bos = bos + 1;
+            }
+            telemetry.addLine("Hue: " + hsvValues[0]);
+            telemetry.update();
+
+
+            if (bos == 2){ //if see ball blue
+                ballX.setPosition(0.85); // knock red ball
+
+            }
+            else {
+                ballX.setPosition(0.35); // knock red ball
+
+            }
+            Thread.sleep(500);
+        }
+        if (Brit == "RED")
+            if (hsvValues[0] < 30) { //if true then see red ball;
+                ballX.setPosition(0.85); // knock blue ball
+            }
+            else if (hsvValues[0] > 320) { // if true see red ball
+                ballX.setPosition(0.85); // knock blue ball
+            }
+            else{ // if true see blue ball
+                ballX.setPosition(0.35); // knock blue ball
+            }
+            Thread.sleep(500);
+        }
 
     public void runWithEncoders(
             double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
@@ -288,6 +346,8 @@ public abstract class robot extends LinearOpMode {
         Distance = hardwareMap.get(DistanceSensor.class, "range");
         ColorDistance = hardwareMap.get(ColorSensor.class, "range");
         Flip = hardwareMap.servo.get("Flip");
+        //GservoL = (CRServo) hardwareMap.crservo.get("GservoL");
+        GservoL = hardwareMap.servo.get("GservoL");
         glifsLeft = hardwareMap.dcMotor.get("glifsLeft");
         glifsRight = hardwareMap.dcMotor.get("glifsRight");
         glifsRight.setDirection(DcMotor.Direction.FORWARD);

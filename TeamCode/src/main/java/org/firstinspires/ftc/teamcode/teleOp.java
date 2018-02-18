@@ -15,6 +15,9 @@ public class teleOp extends OpMode {
     DcMotor motorRightB;
     Servo Rservo;
     Servo ser2;
+   // public CRServo GservoL;
+public Servo GservoR;
+public Servo GservoL;
     DcMotor glifsLeft;
     DcMotor glifsRight;
     Servo Flip;
@@ -69,6 +72,9 @@ public class teleOp extends OpMode {
         motorRightF = hardwareMap.dcMotor.get("motorRightF");
 
         Rservo = hardwareMap.servo.get("Rservo");
+       // GservoL = (CRServo) hardwareMap.crservo.get("GservoL");
+        GservoR = hardwareMap.servo.get("GservoR");
+        GservoL = hardwareMap.servo.get("GservoL");
        // ser2 = hardwareMap.servo.get("Ser2");
         glifsLeft = hardwareMap.dcMotor.get("glifsLeft");
         glifsRight = hardwareMap.dcMotor.get("glifsRight");
@@ -79,6 +85,11 @@ public class teleOp extends OpMode {
         Rmotor =hardwareMap.dcMotor.get("Rmotor");
 
         Elev.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Rmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         motorLeftB.setDirection(DcMotor.Direction.REVERSE);
         motorLeftF.setDirection(DcMotor.Direction.REVERSE);
@@ -162,6 +173,12 @@ public class teleOp extends OpMode {
 
 
         }
+        if(gamepad1.b){
+            GservoR.setPosition(1);
+        }
+        if (gamepad1.a){
+            GservoR.setPosition(0);
+        }
         //take relic
         if (gamepad2.y) {
 
@@ -177,8 +194,9 @@ public class teleOp extends OpMode {
         if (flagForServo) {
             Rservo.setPosition(0);
         } else {
-           Rservo.setPosition(1);
+           Rservo.setPosition(0.80);
         }
+
 
 
        /* if (gamepad2.dpad_down) {
@@ -250,6 +268,8 @@ public class teleOp extends OpMode {
             ballX.setPosition(0.69);
             ballY.setPosition(0.69);
         }
+
+
         //yValue = gamepad1.right_stick_x;
         //xValue = gamepad1.left_stick_y;
 
@@ -262,6 +282,7 @@ public class teleOp extends OpMode {
         //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
         //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
         Rmotor.setPower(-gamepad2.right_stick_x);
+        telemetry.addLine("Relic: " + Rmotor.getCurrentPosition());
 
         if(!lastPressedSlowMode && gamepad2.a){
             slowMode = !slowMode;
@@ -282,8 +303,27 @@ public class teleOp extends OpMode {
         }
         lastPressedSlowMode = gamepad2.a;
 
-        telemetry.addLine("Relic: " + Rmotor.getCurrentPosition());
+
         telemetry.addLine("SlowMode: " + slowMode);
+        if (gamepad2.x){
+            Rmotor.setTargetPosition(100);
+            Rmotor.setPower(1);
+            Rservo.setPosition(0);
+
+            motorRightB.setTargetPosition(100);
+            motorRightB.setTargetPosition(100);
+            motorLeftF.setTargetPosition(100);
+            motorRightF.setTargetPosition(100);
+
+            motorRightB.setPower(1);
+            motorRightB.setPower(1);
+            motorLeftF.setPower(1);
+            motorRightF.setPower(1);
+
+
+
+
+        }
 
     }// end of method loop
 

@@ -18,6 +18,7 @@ public class BlueTeamRightAngle extends robot {
         initgyro();
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
+
         telemetry.addData(">", "Hello Drivers" );
         telemetry.addLine("Press Play To Start");
         telemetry.update();
