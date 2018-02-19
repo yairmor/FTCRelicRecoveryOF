@@ -47,6 +47,7 @@ public abstract class robot extends LinearOpMode {
     public DcMotor Elev;
     //public CRServo GservoL;
     public Servo GservoL;
+    public Servo GservoR;
     public ColorSensor ColorDistance;
     public String Brit = "";
     //public DistanceSensor Distance;
@@ -71,6 +72,7 @@ public abstract class robot extends LinearOpMode {
     public OpenGLMatrix lastKnownLocation;
     public OpenGLMatrix phoneLocation;
     public Boolean CheckColumn = false;
+
 
 
     static final String VUFORIA_KEY = ""; // Insert your own key here
@@ -251,7 +253,7 @@ public abstract class robot extends LinearOpMode {
             if (hsvValues[0] > 30) {
                 bos = 1;
             }
-            if (hsvValues[0] < 215){
+            if (hsvValues[0] < 260){
                 bos = bos + 1;
             }
             telemetry.addLine("Hue: " + hsvValues[0]);
@@ -348,10 +350,11 @@ public abstract class robot extends LinearOpMode {
         Flip = hardwareMap.servo.get("Flip");
         //GservoL = (CRServo) hardwareMap.crservo.get("GservoL");
         GservoL = hardwareMap.servo.get("GservoL");
+        GservoR = hardwareMap.servo.get("GservoR");
         glifsLeft = hardwareMap.dcMotor.get("glifsLeft");
         glifsRight = hardwareMap.dcMotor.get("glifsRight");
         glifsRight.setDirection(DcMotor.Direction.FORWARD);
-        glifsLeft.setDirection(DcMotor.Direction.FORWARD);
+        glifsLeft.setDirection(DcMotor.Direction.REVERSE );
 
         motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -362,6 +365,17 @@ public abstract class robot extends LinearOpMode {
         motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
+    }
+    public void GlifServo(String Direction){
+        if (Direction == "UP"){
+            GservoR.setPosition(1);
+            GservoL.setPosition(0);
+        }
+        else if(Direction == "DOWN"){
+            GservoR.setPosition(0);
+            GservoL.setPosition(1);
+        }
 
     }
 
@@ -377,8 +391,7 @@ public abstract class robot extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        telemetry.addData("12363 ", "Good Luck Robot");
-        telemetry.update();
+
 
     }
 

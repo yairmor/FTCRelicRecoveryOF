@@ -160,11 +160,11 @@ public Servo GservoL;
         //collect glifs
         if (gamepad1.right_bumper) {
             glifsLeft.setPower(-1);
-            glifsRight.setPower(1);
+            glifsRight.setPower(-1);
 
         } else if (gamepad1.left_bumper) {
             glifsLeft.setPower(1);
-            glifsRight.setPower(-1);
+            glifsRight.setPower(1);
 
         } else {
             glifsLeft.setPower(0);
@@ -175,10 +175,18 @@ public Servo GservoL;
         }
         if(gamepad1.b){
             GservoR.setPosition(1);
+            GservoL.setPosition(0);
         }
         if (gamepad1.a){
             GservoR.setPosition(0);
+            GservoL.setPosition(1);
         }
+
+        if (gamepad1.x){
+            GservoR.setPosition(0.5);
+            GservoL.setPosition(0.5);
+        }
+
         //take relic
         if (gamepad2.y) {
 

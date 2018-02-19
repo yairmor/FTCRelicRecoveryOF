@@ -15,11 +15,10 @@ public class RedTeamZigZagPotision extends robot  {
     public void runOpMode() throws InterruptedException {
         initVuforia();
         initRobot();
-
+        GlifServo("DOWN");
         stopAndResetEncoders();
-        telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
+        telemetry.addData("12363 ", "Good Luck Robot");
         telemetry.update();
-
         waitForStart();
 
         ballX.setPosition(0.69);
