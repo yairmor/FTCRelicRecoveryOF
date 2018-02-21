@@ -86,7 +86,7 @@ public class RedTeamRightAngle extends robot {
                 Thread.sleep(100);
                 runWithGyro(400, .8, "REVERSE");
                 Thread.sleep(100);
-                runWithGyro(1300, .8, "FORWARD");
+                runWithGyro(900, .8, "FORWARD");
                 Thread.sleep(100);
                 glifonator(700);
 

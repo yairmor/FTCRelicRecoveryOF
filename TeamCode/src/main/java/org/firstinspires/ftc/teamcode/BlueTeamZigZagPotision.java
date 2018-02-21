@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+
 
 /**
  * Created by user on 10/12/2017.
@@ -13,7 +15,8 @@ public class BlueTeamZigZagPotision extends robot  {
     public void runOpMode() throws InterruptedException {
         //initVuforia();
         initRobot();
-
+        initVuforia();
+        GlifServo("DOWN");
 
         telemetry.addLine("RED: " + String.valueOf(colorSensor.red()));
         telemetry.addData(">", "heifes KATAV!");
@@ -23,65 +26,117 @@ public class BlueTeamZigZagPotision extends robot  {
 
         ballX.setPosition(0.72);
         Thread.sleep(650);
-        ballY.setPosition(0.15);
+        ballY.setPosition(0.13);
         Thread.sleep(1000);
 
 
 
-        if (colorSensor.red() < 48){
-            ballX.setPosition(0.85);
-        }
-        else{
-            ballX.setPosition(0.23);
-        }
-
+        Kadorim("BLUE");
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
-        Flip.setPosition(0.70);
-        Thread.sleep(30);
+        Flip.setPosition(0.53);
+        Thread.sleep(70);
+        RelicRecoveryVuMark currentVu = vision();
 
-        // going 60cm Backward//
-        runWithEncoders( 0.7,  0.7,  2300,  2300,7000);
-        Thread.sleep(750);
-        //turning right//
-        runWithEncoders( 0.85, -0.85,  1250, -1250,7000);
-        Thread.sleep(750);
-        // going 32cm Backward//
-        runWithEncoders( 0.7,  0.7,  2050, 2050,7000);
-        Thread.sleep(750);
-        //turning Left//
-        runWithEncoders( 0.75, -0.75,  1320, -1320,7000);
-        Thread.sleep(750);
+        if (currentVu== RelicRecoveryVuMark.CENTER){
+            stopAndResetEncoders();
+            Flip.setPosition(0.53);
+            Thread.sleep(200);
+            //going backward 41 cm
+            runWithEncoders(1, 1, 2900, 2900,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.7, 0.7, -1350, 1350,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.7, 0.7, -820, -8200,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.8, 0.8, -1200, 1200,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.8, 0.8, -700, -700,2000);
+            Thread.sleep(1000);
 
-        //drive forward to the matrix 32cm//
-        runWithEncoders( -0.6,  -0.6,  -1550,  -1550,7000);
-        Thread.sleep(750);
-
-        // MAGASH up down two times//
-        Flip.setPosition(0.33);
-        Thread.sleep(30);
-        //revers stop//
-        runWithEncoders(0.5,0.5, 160, 160,7000);
-        Thread.sleep(30);
-        Flip.setPosition(0.77);
-
-
+            Flip.setPosition(0.2);//MAGASH up
+            Thread.sleep(1000);
+            runWithEncoders(1, 1, 500, 500 ,1000);
+            Flip.setPosition(0.63);
+        }
 
 
+        else if(currentVu== RelicRecoveryVuMark.RIGHT){
+            stopAndResetEncoders();
+            Flip.setPosition(0.53);
+            Thread.sleep(200);
+            //going backward 41 cm
+            runWithEncoders(1, 1, -1950, -1950,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.7, 0.7, -1150, 1150,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.7, 0.7, -340, -340,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.8, 0.8, 1100, -1100,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.8, 0.8, -700, -700,2000);
+            Thread.sleep(1000);
+
+            Flip.setPosition(0.2);//MAGASH up
+            Thread.sleep(1000);
+            runWithEncoders(1, 1, 500, 500 ,1000);
+            Flip.setPosition(0.63);
+        }
 
 
+        else if(currentVu== RelicRecoveryVuMark.LEFT){
+            stopAndResetEncoders();
+            Flip.setPosition(0.53);
+            Thread.sleep(200);
+            //going backward 41 cm
+            runWithEncoders(1, 1, -2000, -2000,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.7, 0.7, -1275, 1275,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.7, 0.7, -1600, -1600,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.8, 0.8, 1200, -1200,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.8, 0.8, -700, -700,2000);
+            Thread.sleep(1000);
 
+            Flip.setPosition(0.2);//MAGASH up
+            Thread.sleep(1000);
+            runWithEncoders(1, 1, 500, 500 ,1000);
+            Flip.setPosition(0.63);
 
+        }
+        else {
+            stopAndResetEncoders();
+            Flip.setPosition(0.53);
+            Thread.sleep(200);
+            //going backward 41 cm
+            runWithEncoders(1, 1, -2000, -2000,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.7, 0.7, -1275, 1275,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.7, 0.7, -1600, -1600,3000);
+            Thread.sleep(200);
+            //turning right
+            runWithEncoders(0.8, 0.8, 1200, -1200,2000);
+            Thread.sleep(200);
+            runWithEncoders(0.8, 0.8, -700, -700,2000);
+            Thread.sleep(1000);
 
+            Flip.setPosition(0.2);//MAGASH up
+            Thread.sleep(1000);
+            runWithEncoders(1, 1, 500, 500 ,1000);
+            Flip.setPosition(0.63);
+        }
 
-        // go backward for 15 cm//
-        //runWithEncoders(0.5, 0.5, 700, 700, 2000);
-        //Thread.sleep(30);
-        // going again forward to push the cube//
-        //runWithEncoders(-0.5, -0.5, -700, -700, 2000);
-
-        // finish with the MAGASH down//
 
 
 

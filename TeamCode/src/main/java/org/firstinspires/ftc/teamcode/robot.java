@@ -249,21 +249,13 @@ public abstract class robot extends LinearOpMode {
                 (int) (colorSensor.green() * SCALE_FACTOR),
                 (int) (colorSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-        if (Brit == "BLUE"){
-            if (hsvValues[0] > 30) {
-                bos = 1;
-            }
-            if (hsvValues[0] < 260){
-                bos = bos + 1;
-            }
+        if (Brit == "BLUE") {
             telemetry.addLine("Hue: " + hsvValues[0]);
             telemetry.update();
-
-
-            if (bos == 2){ //if see ball blue
+            if (hsvValues[0] > 30 || hsvValues[0] < 260) {
                 ballX.setPosition(0.85); // knock red ball
-
             }
+
             else {
                 ballX.setPosition(0.35); // knock red ball
 
@@ -271,10 +263,7 @@ public abstract class robot extends LinearOpMode {
             Thread.sleep(500);
         }
         if (Brit == "RED")
-            if (hsvValues[0] < 30) { //if true then see red ball;
-                ballX.setPosition(0.85); // knock blue ball
-            }
-            else if (hsvValues[0] > 320) { // if true see red ball
+            if (hsvValues[0] < 30 && hsvValues[0] > 320) { //if true then see red ball;
                 ballX.setPosition(0.85); // knock blue ball
             }
             else{ // if true see blue ball
@@ -282,6 +271,7 @@ public abstract class robot extends LinearOpMode {
             }
             Thread.sleep(500);
         }
+
 
     public void runWithEncoders(
             double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {

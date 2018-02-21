@@ -32,7 +32,6 @@ public Servo GservoL;
     boolean lastLowerValue;
     int liftState = 0;
     float speedCon = 1;
-
     boolean slowMode = false;
     boolean lastPressedSlowMode;
     private enum Direction {
@@ -97,8 +96,8 @@ public Servo GservoL;
         motorRightB.setDirection(DcMotor.Direction.FORWARD);
         motorRightF.setDirection(DcMotor.Direction.FORWARD);
 
-        glifsRight.setDirection(DcMotor.Direction.REVERSE);
-        glifsLeft.setDirection(DcMotor.Direction.FORWARD);
+        glifsRight.setDirection(DcMotor.Direction.FORWARD);
+        glifsLeft.setDirection(DcMotor.Direction.REVERSE );
         Rmotor.setDirection(DcMotor.Direction.REVERSE);
         //telemetry.update();
         ballX.setPosition(0.69);
@@ -160,11 +159,12 @@ public Servo GservoL;
         //collect glifs
         if (gamepad1.right_bumper) {
             glifsLeft.setPower(-1);
-            glifsRight.setPower(-1);
-
-        } else if (gamepad1.left_bumper) {
-            glifsLeft.setPower(1);
             glifsRight.setPower(1);
+
+        }
+        if (gamepad1.left_bumper) {
+            glifsLeft.setPower(1);
+            glifsRight.setPower(-1);
 
         } else {
             glifsLeft.setPower(0);
@@ -240,10 +240,10 @@ public Servo GservoL;
             Elev.setPower(0);
         }
         glifsLeft.setPower(-gamepad1.right_trigger);
-        glifsRight.setPower(gamepad1.right_trigger);
+        glifsRight.setPower(-gamepad1.right_trigger);
 
         glifsLeft.setPower(gamepad1.left_trigger);
-        glifsRight.setPower(-gamepad1.left_trigger);
+        glifsRight.setPower(gamepad1.left_trigger);
 
         if(!lastUpperVaLue && gamepad2.dpad_up){
             liftState++;
