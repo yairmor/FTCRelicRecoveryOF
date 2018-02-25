@@ -48,7 +48,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 public class SensorDigitalTouch extends LinearOpMode {
     /**
      * The REV Robotics Touch Sensor
-     * is treated as a digital channel.  It is HIGH if the button is unpressed.
+     * is treated as a digital channel.  It is H IGH if the button is unpressed.
      * It pulls LOW if the button is pressed.
      *
      * Also, when you connect a REV Robotics Touch Sensor to the digital I/O port on the
