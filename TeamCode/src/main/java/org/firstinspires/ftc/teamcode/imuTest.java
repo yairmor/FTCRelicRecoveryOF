@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
@@ -14,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 /**
  * Created by user on 27/01/2018.
  */
+@Disabled
+
 @Autonomous(name = "imuTest")
 public class imuTest extends robot {
 

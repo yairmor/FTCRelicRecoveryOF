@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import java.io.EOFException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -12,6 +14,7 @@ import java.util.List;
  * Timeseries streaming.
  * Writes and reads timeseries streams.
  */
+@Disabled
 public class TimeseriesStream {
     /**
      * Data point in a time series.

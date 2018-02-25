@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -15,6 +16,7 @@ public class teleOp extends OpMode {
     DcMotor motorRightB;
     Servo Rservo;
     Servo ser2;
+    public DigitalChannel Rtouch;
    // public CRServo GservoL;
 public Servo GservoR;
 public Servo GservoL;
@@ -61,7 +63,7 @@ public Servo GservoL;
         telemetry.addData("power", "  left=" + leftPower + "  right=" + rightPower);
 
         //motorcontroller = hardwareMap.voltageSensor.get("voltage");
-
+        Rtouch = hardwareMap.digitalChannel.get("Rtouch");
         //MOTORS BACK
         motorLeftB = hardwareMap.dcMotor.get("motorLeftB");
         motorRightB = hardwareMap.dcMotor.get("motorRightB");
@@ -82,6 +84,7 @@ public Servo GservoL;
         ballX = hardwareMap.servo.get("ballX");
         ballY = hardwareMap.servo.get("ballY");
         Rmotor =hardwareMap.dcMotor.get("Rmotor");
+        Rmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Elev.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -103,13 +106,12 @@ public Servo GservoL;
         ballX.setPosition(0.69);
         ballY.setPosition(0.69);
         Flip.setPosition(0.63);
-
-
+        Rtouch.setMode(DigitalChannel.Mode.INPUT);
+        Rmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Rmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Rmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//sets the speed
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -151,7 +153,48 @@ public Servo GservoL;
         //motorLeftF.setPower(-gamepad1.left_stick_y);
         //motorRightF.setPower(gamepad1.right_stick_y);
         */
+        if (gamepad1.dpad_up){
+            motorLeftB.setTargetPosition(-1300);
+            motorRightF.setTargetPosition(-1300);
+            motorRightB.setTargetPosition(-1300);
+            motorLeftF.setTargetPosition(-1300);
+           ;
+            motorLeftF.setPower(0.4);
+            motorRightF.setPower(0.4);
+            motorLeftB.setPower(0.4);
+            motorRightB.setPower(0.4);
 
+            try {
+                Thread.sleep(750);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            while (motorRightF.isBusy()||motorLeftF.isBusy()){
+                telemetry.addLine("doing relic shit");
+            }
+            motorLeftB.setTargetPosition(-1000);
+            motorRightF.setTargetPosition(-1000);
+            motorRightB.setTargetPosition(-1000);
+            motorLeftF.setTargetPosition(-1000);
+            Rmotor.setTargetPosition(3000);
+            Rmotor.setPower(1);
+            motorLeftF.setPower(0.4);
+            motorRightF.setPower(0.4);
+            motorLeftB.setPower(0.4);
+            motorRightB.setPower(0.4);
+            try {
+                Thread.sleep(900);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            telemetry.addLine("finish relic shit");
+            GservoR.setPosition(0);
+            GservoL.setPosition(1);
+            Rmotor.setPower(0);
+            Rmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            Rmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
 
         telemetry.addLine("MLB:" + motorLeftB.getCurrentPosition() + " MRB: " + motorRightB.getCurrentPosition());
         telemetry.addLine("MLF:" + motorLeftF.getCurrentPosition() + " MRF: " + motorRightF.getCurrentPosition());
@@ -253,13 +296,13 @@ public Servo GservoL;
             liftState--;
         }
         if(liftState == 0){
-            Flip.setPosition(0.65);
+            Flip.setPosition(0.63);
         }
         else if(liftState == 1){
-            Flip.setPosition(0.53);
+            Flip.setPosition(0.50);
         }
         else{
-            Flip.setPosition(0.17);
+            Flip.setPosition(0.15);
         }
         if(liftState < 0){
             liftState = 0;
@@ -277,7 +320,9 @@ public Servo GservoL;
             ballY.setPosition(0.69);
         }
 
-
+        Rmotor.setPower(-gamepad2.right_stick_x);
+        telemetry.addLine("Touch Sensor: " + Rtouch.getState());
+        telemetry.update();
         //yValue = gamepad1.right_stick_x;
         //xValue = gamepad1.left_stick_y;
 
@@ -289,7 +334,13 @@ public Servo GservoL;
 
         //motorRightF.setPower(Range.clip(rightPower, -1.0, 1.0));
         //motorRightB.setPower(Range.clip(rightPower, -1.0, 1.0));
-        Rmotor.setPower(-gamepad2.right_stick_x);
+        /*if (Rtouch.getState() == true){
+            Rmotor.setPower(0);
+        }
+        else{
+            Rmotor.setPower(-gamepad2.right_stick_x);
+
+        }*/
         telemetry.addLine("Relic: " + Rmotor.getCurrentPosition());
 
         if(!lastPressedSlowMode && gamepad2.a){
@@ -313,25 +364,7 @@ public Servo GservoL;
 
 
         telemetry.addLine("SlowMode: " + slowMode);
-        if (gamepad2.x){
-            Rmotor.setTargetPosition(100);
-            Rmotor.setPower(1);
-            Rservo.setPosition(0);
 
-            motorRightB.setTargetPosition(100);
-            motorRightB.setTargetPosition(100);
-            motorLeftF.setTargetPosition(100);
-            motorRightF.setTargetPosition(100);
-
-            motorRightB.setPower(1);
-            motorRightB.setPower(1);
-            motorLeftF.setPower(1);
-            motorRightF.setPower(1);
-
-
-
-
-        }
 
     }// end of method loop
 

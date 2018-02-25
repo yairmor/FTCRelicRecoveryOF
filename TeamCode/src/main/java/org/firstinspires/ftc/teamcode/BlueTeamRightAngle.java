@@ -24,13 +24,10 @@ public class BlueTeamRightAngle extends robot {
         telemetry.update();
 
         waitForStart();
-        Flip.setPosition(0.53);
-        ballX.setPosition(0.69);
-        Thread.sleep(1000);
-        ballY.setPosition(0.13);
-        Thread.sleep(850);
         Kadorim("BLUE");
-
+        Rmotor.setTargetPosition(-2650);
+        Rmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Rmotor.setPower(1);
         Thread.sleep(500);
         ballX.setPosition(0.69);
         ballY.setPosition(0.71);
@@ -61,11 +58,11 @@ public class BlueTeamRightAngle extends robot {
             stopAndResetEncoders();
             Flip.setPosition(0.53);//MAGASH half way
 
-            runWithEncoders(1, 1, 4450, 4450,3000);//going 40cm forward//
+            runWithEncoders(1, 1, 4450, 4450,2000);//going 40cm forward//
             Thread.sleep(100);
-            runWithEncoders(0.6, 0.6, 1120, -1120,2000);//turning LEFT//
+            runWithEncoders(0.7, 0.7, 1250, -1250,1500);//turning LEFT//
             Thread.sleep(100);
-            runWithEncoders(0.9, 0.9, -900, -900, 2000);//drive to matriza
+            runWithEncoders(0.9, 0.9, -900, -900, 1000);//drive to matriza
             Thread.sleep(150);
             GlifServo("UP");
             // MAGASH up down //
@@ -129,9 +126,9 @@ public class BlueTeamRightAngle extends robot {
         Thread.sleep(100);
         glifsLeft.setPower(1);
         glifsRight.setPower(1);
-        runWithGyro(600, 0.8, "FORWARD");
+        runWithGyro(700, 0.8, "FORWARD");
         Thread.sleep(100);
-        runWithGyro(2000, 0.8, "FORWARD");
+        runWithGyro(1600, 0.8, "FORWARD");
         glifonator(500);
 
         if (NumCube == 2) {
@@ -140,7 +137,7 @@ public class BlueTeamRightAngle extends robot {
             Thread.sleep(100);
             runWithGyro(400, .8, "REVERSE");
             Thread.sleep(100);
-            runWithGyro(1300, .8, "FORWARD");
+            runWithGyro(1000, .8, "FORWARD");
             Thread.sleep(100);
             glifonator(700);
 
@@ -165,12 +162,14 @@ public class BlueTeamRightAngle extends robot {
             Thread.sleep(100);
             runWithEncoders(0.8, 0.8, -5000, -5000, 4000);
             */
+        GlifServo("DOWN");
         runWithGyro(2300, .8, "REVERSE");
+        GlifServo("UP");
         Thread.sleep(150);
         runWithEncoders(1, 1, 200, 200, 1000);
         Flip.setPosition(0.53);
         //runWithEncoders(0.8, 0.8, -3250, -3250, 4000);
-        Elev.setTargetPosition(1100);
+        Elev.setTargetPosition(1200);
         Elev.setPower(1);
         Thread.sleep(100);
         runWithEncoders(1, 1, -100, -100, 600);
@@ -180,11 +179,10 @@ public class BlueTeamRightAngle extends robot {
         runWithEncoders(1, 1, -100, -100, 500);
         Thread.sleep(100);
         runWithEncoders(1, 1, 620, 620, 1000);
-        Elev.setTargetPosition(-300);
+        Elev.setTargetPosition(-320);
         glifsLeft.setPower(0);
         glifsRight.setPower(0);
         Flip.setPosition(0.636);
-
 
     }
 

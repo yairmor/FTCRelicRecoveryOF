@@ -56,6 +56,7 @@ public abstract class robot extends LinearOpMode {
     public Servo Flip;
     public DcMotor glifsLeft;
     public DcMotor glifsRight;
+    public DcMotor Rmotor;
     public BNO055IMU imu;
     public String Column;
     public Orientation angles;
@@ -210,6 +211,7 @@ public abstract class robot extends LinearOpMode {
         motorRightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Rmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void stopAndResetEncoders() {//will do both
@@ -230,6 +232,10 @@ public abstract class robot extends LinearOpMode {
         //motorRightF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void Kadorim(String Brit) throws InterruptedException {
+        ballX.setPosition(0.69);
+        Thread.sleep(650);
+        ballY.setPosition(0.12);
+        Thread.sleep(1000);
         float hsvValues[] = {0F, 0F, 0F};
         int bos = 0;
 
@@ -252,8 +258,8 @@ public abstract class robot extends LinearOpMode {
         if (Brit == "BLUE") {
             telemetry.addLine("Hue: " + hsvValues[0]);
             telemetry.update();
-            if (hsvValues[0] > 30 || hsvValues[0] < 260) {
-                ballX.setPosition(0.85); // knock red ball
+            if (hsvValues[0] > 30 && hsvValues[0] < 260) {
+                ballX.setPosition(0.9); // knock red ball
             }
 
             else {
@@ -263,8 +269,8 @@ public abstract class robot extends LinearOpMode {
             Thread.sleep(500);
         }
         if (Brit == "RED")
-            if (hsvValues[0] < 30 && hsvValues[0] > 320) { //if true then see red ball;
-                ballX.setPosition(0.85); // knock blue ball
+            if (hsvValues[0] < 30 || hsvValues[0] > 320) { //if true then see red ball;
+                ballX.setPosition(0.9); // knock blue ball
             }
             else{ // if true see blue ball
                 ballX.setPosition(0.35); // knock blue ball
@@ -345,11 +351,12 @@ public abstract class robot extends LinearOpMode {
         glifsRight = hardwareMap.dcMotor.get("glifsRight");
         glifsRight.setDirection(DcMotor.Direction.FORWARD);
         glifsLeft.setDirection(DcMotor.Direction.REVERSE );
-
-        motorLeftF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorLeftB.setDirection(DcMotorSimple.Direction.REVERSE);
+        Rmotor = hardwareMap.dcMotor.get("Rmotor");
+        motorLeftF.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftB.setDirection(DcMotor.Direction.REVERSE);
         Elev.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        Rmotor.setDirection(DcMotor.Direction.REVERSE);
+        Rmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -580,7 +587,7 @@ public abstract class robot extends LinearOpMode {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correctionR, angle, gain = .10;
+        double correctionR, angle, gain = 0.3;
 
         angle = getAngle();
 
@@ -597,7 +604,7 @@ public abstract class robot extends LinearOpMode {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correctionF, angle, gain = .10;
+        double correctionF, angle, gain = .30;
 
         angle = getAngle();
 
@@ -681,7 +688,6 @@ public abstract class robot extends LinearOpMode {
                         String.format(Locale.US, "%.02f", Distance.getDistance(DistanceUnit.CM)));
                 if (Distance.getDistance(DistanceUnit.CM) > 1) {
                     NumCube = 2;
-
 
                     break;
                 }else if((System.currentTimeMillis() - start < Time)) {

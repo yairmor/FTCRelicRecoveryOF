@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,6 +12,8 @@ import java.util.List;
  * Robot BlackBox recording and playback.
  * Writes hardware state as a time series and plays it back.
  */
+@Disabled
+
 public class BlackBox {
     /**
      * Writes hardware state as a timeseries stream.

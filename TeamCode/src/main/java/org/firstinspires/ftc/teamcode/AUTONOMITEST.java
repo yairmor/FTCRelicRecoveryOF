@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -10,9 +11,8 @@ import java.util.Locale;
 /**
  * Created by user on 11/02/2018.
  */
-
+@Disabled
 @Autonomous public class AUTONOMITEST extends robot {
-
 
     @Override
     public void runOpMode() throws InterruptedException {

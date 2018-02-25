@@ -20,13 +20,6 @@ public class RedTeamZigZagPotision extends robot  {
         telemetry.addData("12363 ", "Good Luck Robot");
         telemetry.update();
         waitForStart();
-
-        ballX.setPosition(0.69);
-        Thread.sleep(1000);
-        ballY.setPosition(0.12);
-        Thread.sleep(1000);
-
-
         Kadorim("RED");
 
        /* if (colorSensor.red() > 47){
